@@ -25,7 +25,7 @@ public class SubtitleProcessingTask extends AsyncTask<Void, Void, Void> {
     private TimedTextObject srt;
     private SubtitleProcessor processor;
 
-    public SubtitleProcessingTask( Context context,Handler subtitleDisplayHandler, SubtitleProcessor processor) {
+    public SubtitleProcessingTask(Context context,Handler subtitleDisplayHandler, SubtitleProcessor processor) {
         this.subtitleDisplayHandler = subtitleDisplayHandler;
         this.context = context;
         this.processor = processor;
@@ -81,6 +81,7 @@ public class SubtitleProcessingTask extends AsyncTask<Void, Void, Void> {
             processor.addSrt(srt);
             subtitleDisplayHandler.post(processor);
             Log.d("TAG", "subtitles loaded!!");
+
         }
         super.onPostExecute(result);
     }
