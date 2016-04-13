@@ -1,4 +1,4 @@
-package com.plorial.plorialplayer;
+package com.plorial.plorialplayer.model;
 
 /**
  * Created by plorial on 4/12/16.
@@ -10,8 +10,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.plorial.plorialplayer.R;
+import com.plorial.plorialplayer.events.VideoStatusEvent;
 import com.sri.subtitlessupport.utils.FormatSRT;
 import com.sri.subtitlessupport.utils.TimedTextObject;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -81,7 +85,7 @@ public class SubtitleProcessingTask extends AsyncTask<Void, Void, Void> {
             processor.addSrt(srt);
             subtitleDisplayHandler.post(processor);
             Log.d("TAG", "subtitles loaded!!");
-
+            EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
         }
         super.onPostExecute(result);
     }

@@ -1,20 +1,13 @@
-package com.plorial.plorialplayer;
+package com.plorial.plorialplayer.controllers;
 
 import android.content.Context;
 import android.os.Handler;
-import android.text.Spannable;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devbrackets.android.exomedia.EMVideoView;
-
-import java.text.BreakIterator;
-import java.util.Locale;
+import com.plorial.plorialplayer.controllers.SubtitlesClickListener;
+import com.plorial.plorialplayer.model.SubtitleProcessingTask;
+import com.plorial.plorialplayer.model.SubtitleProcessor;
 
 /**
  * Created by plorial on 4/13/16.
@@ -34,14 +27,12 @@ public class SubtitlesController {
     }
 
     public void startSubtitles(){
-       subtitleDisplayHandler = new Handler();
-       SubtitleProcessor processor = new SubtitleProcessor(subtitleDisplayHandler,videoView, subtitlesText);
+        subtitleDisplayHandler = new Handler();
+        SubtitleProcessor processor = new SubtitleProcessor(subtitleDisplayHandler,videoView, subtitlesText);
 
-        SubtitlesClickListener subtitlesClickListener = new SubtitlesClickListener(videoView);
+        SubtitlesClickListener subtitlesClickListener = new SubtitlesClickListener();
         subtitlesText.setOnClickListener(subtitlesClickListener);
-       subsFetchTask = new SubtitleProcessingTask(context,subtitleDisplayHandler,processor);
-       subsFetchTask.execute();
+        subsFetchTask = new SubtitleProcessingTask(context,subtitleDisplayHandler,processor);
+        subsFetchTask.execute();
     }
-
-
 }

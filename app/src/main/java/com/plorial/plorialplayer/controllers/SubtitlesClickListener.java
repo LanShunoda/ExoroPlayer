@@ -1,4 +1,4 @@
-package com.plorial.plorialplayer;
+package com.plorial.plorialplayer.controllers;
 
 import android.text.Spannable;
 import android.text.TextPaint;
@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.devbrackets.android.exomedia.EMVideoView;
+import com.plorial.plorialplayer.events.VideoStatusEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.BreakIterator;
 import java.util.Locale;
@@ -19,16 +21,9 @@ import java.util.Locale;
  */
 public class SubtitlesClickListener implements View.OnClickListener {
 
-    private EMVideoView videoView;
-
-    public SubtitlesClickListener(EMVideoView videoView) {
-        this.videoView = videoView;
-    }
-
     @Override
     public void onClick(View v) {
-        if(videoView.isPlaying())
-            videoView.pause();
+        EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.PAUSE));
         init(v);
     }
 

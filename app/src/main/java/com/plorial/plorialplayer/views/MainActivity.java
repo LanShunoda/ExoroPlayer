@@ -1,4 +1,4 @@
-package com.plorial.plorialplayer;
+package com.plorial.plorialplayer.views;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -7,6 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.devbrackets.android.exomedia.EMVideoView;
+import com.plorial.plorialplayer.R;
+import com.plorial.plorialplayer.controllers.SubtitlesController;
+import com.plorial.plorialplayer.events.VideoStatusEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener {
 
@@ -39,7 +45,26 @@ public class MainActivity extends AppCompatActivity implements MediaPlayer.OnPre
 
         SubtitlesController subController = new SubtitlesController(this,emVideoView,subtitleText);
         subController.startSubtitles();
+    }
 
-        emVideoView.start();
+    @Subscribe
+    public void onPauseEvent(VideoStatusEvent event){
+        if(event.getMassage() == VideoStatusEvent.PAUSE && emVideoView.isPlaying())
+            emVideoView.pause();
+
+        if(event.getMassage() == VideoStatusEvent.READY_TO_START)
+            emVideoView.start();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }

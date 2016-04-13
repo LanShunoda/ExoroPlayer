@@ -1,4 +1,4 @@
-package com.plorial.plorialplayer;
+package com.plorial.plorialplayer.model;
 
 import android.os.Handler;
 import android.text.Html;
