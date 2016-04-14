@@ -1,4 +1,4 @@
-package com.plorial.plorialplayer.model;
+package com.plorial.exoroplayer.model;
 
 import android.os.Handler;
 import android.text.Html;

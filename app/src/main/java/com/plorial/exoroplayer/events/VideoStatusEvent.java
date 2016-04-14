@@ -1,4 +1,4 @@
-package com.plorial.plorialplayer.events;
+package com.plorial.exoroplayer.events;
 
 /**
  * Created by plorial on 4/13/16.

@@ -1,4 +1,4 @@
-package com.plorial.plorialplayer.model;
+package com.plorial.exoroplayer.model;
 
 /**
  * Created by plorial on 4/12/16.
@@ -13,14 +13,12 @@ import android.widget.Toast;
 import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.v1.DbxClientV1;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.users.FullAccount;
-import com.plorial.plorialplayer.R;
-import com.plorial.plorialplayer.events.VideoStatusEvent;
+import com.plorial.exoroplayer.events.VideoStatusEvent;
 import com.sri.subtitlessupport.utils.FormatSRT;
 import com.sri.subtitlessupport.utils.TimedTextObject;
 
@@ -31,8 +29,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.Arrays;
 
 public class SubtitleProcessingTask extends AsyncTask<Void, Void, Void> {
 

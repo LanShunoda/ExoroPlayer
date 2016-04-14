@@ -1,4 +1,4 @@
-package com.plorial.plorialplayer;
+package com.plorial.exoroplayer;
 
 import org.junit.Test;
 

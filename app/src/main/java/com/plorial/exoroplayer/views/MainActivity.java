@@ -1,4 +1,4 @@
-package com.plorial.plorialplayer.views;
+package com.plorial.exoroplayer.views;
 
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -8,9 +8,9 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.devbrackets.android.exomedia.EMVideoView;
-import com.plorial.plorialplayer.R;
-import com.plorial.plorialplayer.controllers.SubtitlesController;
-import com.plorial.plorialplayer.events.VideoStatusEvent;
+import com.plorial.exoroplayer.R;
+import com.plorial.exoroplayer.controllers.SubtitlesController;
+import com.plorial.exoroplayer.events.VideoStatusEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

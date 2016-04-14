@@ -1,13 +1,12 @@
-package com.plorial.plorialplayer.controllers;
+package com.plorial.exoroplayer.controllers;
 
 import android.content.Context;
 import android.os.Handler;
 import android.widget.TextView;
 
 import com.devbrackets.android.exomedia.EMVideoView;
-import com.plorial.plorialplayer.controllers.SubtitlesClickListener;
-import com.plorial.plorialplayer.model.SubtitleProcessingTask;
-import com.plorial.plorialplayer.model.SubtitleProcessor;
+import com.plorial.exoroplayer.model.SubtitleProcessingTask;
+import com.plorial.exoroplayer.model.SubtitleProcessor;
 
 /**
  * Created by plorial on 4/13/16.
