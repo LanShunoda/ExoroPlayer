@@ -70,6 +70,7 @@ public class FormatSRT implements TimedTextFileFormat {
 							allGood = true;
 						}
 					} catch (Exception e) {
+						e.printStackTrace();
 						tto.warnings+= captionNumber + " expected at line " + lineCounter;
 						tto.warnings+= "\n skipping to next line\n\n";
 					}
@@ -119,6 +120,7 @@ public class FormatSRT implements TimedTextFileFormat {
 			}
 
 		}  catch (NullPointerException e){
+			e.printStackTrace();
 			tto.warnings+= "unexpected end of file, maybe last caption is not complete.\n\n";
 		} finally{
 	        //we close the reader
