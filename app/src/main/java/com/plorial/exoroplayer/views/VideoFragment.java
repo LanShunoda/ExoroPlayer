@@ -2,7 +2,6 @@ package com.plorial.exoroplayer.views;
 
 import android.app.Fragment;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -25,6 +24,9 @@ import org.greenrobot.eventbus.Subscribe;
 public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedListener{
 
 
+    public static final String VIDEO_PATH = "VIDEO_PATH";
+    public static final String SRT1_PATH = "SRT1";
+    public static final String SRT2_PATH = "SRT2";
     private EMVideoView emVideoView;
     private TextView firstSubtitleText;
     private TextView secondSubtitleText;

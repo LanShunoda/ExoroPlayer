@@ -6,18 +6,18 @@
     <TextView android:id="@+id/textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Get File Name From SDCard"
+        android:text="Get Files From SDCard"
         android:textSize="18dp"
         android:gravity="center"
         android:layout_marginTop="10dp"
         />
-    <RelativeLayout android:id="@+id/relativeLayout1"
+    <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">
         <EditText
             android:layout_alignParentLeft="true"
-            android:hint="EditText"
-            android:id="@+id/editText"
+            android:hint="Video Path"
+            android:id="@+id/etVideoPath"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -25,11 +25,65 @@
             android:layout_marginTop="15dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_toLeftOf="@+id/skipButton" >
+            android:layout_toLeftOf="@+id/bBrowserVideoPath" >
         </EditText>
 
         <Button android:text="Browser"
-            android:id="@+id/skipButton"
+            android:id="@+id/bBrowserVideoPath"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+        </Button>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+        <EditText
+            android:layout_alignParentLeft="true"
+            android:hint="First Sub Path"
+            android:id="@+id/etSub1Path"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:layout_toLeftOf="@+id/bBrowserSub1Path" >
+        </EditText>
+
+        <Button android:text="Browser"
+            android:id="@+id/bBrowserSub1Path"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+        </Button>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+        <EditText
+            android:layout_alignParentLeft="true"
+            android:hint="Second Sub Path"
+            android:id="@+id/etSub2Path"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:layout_toLeftOf="@+id/bBrowserSub2Path" >
+        </EditText>
+
+        <Button android:text="Browser"
+            android:id="@+id/bBrowserSub2Path"
             android:textSize="18dp"
             android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"

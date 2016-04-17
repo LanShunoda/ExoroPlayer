@@ -1,15 +1,9 @@
 package com.plorial.exoroplayer.views;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.Bundle;
-
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListView;
 
 import com.plorial.exoroplayer.R;
