@@ -19,31 +19,50 @@ import com.plorial.exoroplayer.R;
  */
 public class FileExplorerFragment extends Fragment {
 
-    private static final int REQUEST_PATH = 1;
-    String curFileName;
-    EditText edittext;
-    Button button;
+    public static final String FILE_NAME = "GetFileName";
+    public static final String FILE_PATH = "GetFilePath";
+    private String curFileName;
+    private EditText edittext;
+    private Button bBrowser;
+    private Button bPlay;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.file_explorer_fragment, container, false);
         edittext = (EditText) view.findViewById(R.id.editText);
-        button = (Button) view.findViewById(R.id.skipButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        bBrowser = (Button) view.findViewById(R.id.skipButton);
+        bBrowser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFile(v);
             }
         });
         if (getArguments() != null){
-            curFileName = getArguments().getString("GetFileName");
+            curFileName = getArguments().getString(FILE_NAME);
             edittext.setText(curFileName);
         }
+        bPlay = (Button) view.findViewById(R.id.bStartPlaying);
+        bPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPlaying();
+            }
+        });
         return view;
     }
 
-
+    private void startPlaying() {
+        VideoFragment videoFragment = new VideoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(FileExplorerFragment.FILE_PATH, getArguments().getString(FILE_PATH));
+        bundle.putString(FileExplorerFragment.FILE_NAME, getArguments().getString(FILE_NAME));
+        videoFragment.setArguments(bundle);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, videoFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
     public void getFile(View view){
         FileChooseFragment fileChooseFragment = new FileChooseFragment();

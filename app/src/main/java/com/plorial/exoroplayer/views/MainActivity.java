@@ -20,21 +20,14 @@ public class MainActivity extends AppCompatActivity implements FileChooseFragmen
         transaction.add(R.id.fragment_container, fileExplorerFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-
-//        VideoFragment videoFragment = new VideoFragment();
-//        videoFragment.setRetainInstance(true);
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        transaction.add(R.id.fragment_container, videoFragment);
-//        transaction.addToBackStack(null);
-//        transaction.commit();
     }
 
     @Override
     public void onFileSelected(Item o) {
 
         Bundle bundle = new Bundle();
-        bundle.putString("GetPath",o.getPath());
-        bundle.putString("GetFileName",o.getName());
+        bundle.putString(FileExplorerFragment.FILE_PATH,o.getPath());
+        bundle.putString(FileExplorerFragment.FILE_NAME,o.getName());
         FileExplorerFragment fileExplorerFragment = new FileExplorerFragment();
         fileExplorerFragment.setArguments(bundle);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();

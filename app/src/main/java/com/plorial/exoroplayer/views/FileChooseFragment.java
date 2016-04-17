@@ -86,23 +86,19 @@ public class FileChooseFragment extends ListFragment{
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        // TODO Auto-generated method stub
         super.onListItemClick(l, v, position, id);
         Item o = adapter.getItem(position);
         if(o.getImage().equalsIgnoreCase("directory_icon")||o.getImage().equalsIgnoreCase("directory_up")){
             currentDir = new File(o.getPath());
             fill(currentDir);
         }
-        else
-        {
+        else {
             onFileClick(o);
         }
     }
 
-    private void onFileClick(Item o)
-    {
+    private void onFileClick(Item o) {
         mCallback.onFileSelected(o);
-
     }
 
     // Container Activity must implement this interface
@@ -113,14 +109,13 @@ public class FileChooseFragment extends ListFragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
             mCallback = (OnFileSelectedListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
+                    + " must implement OnFileSelectedListener");
         }
     }
 }

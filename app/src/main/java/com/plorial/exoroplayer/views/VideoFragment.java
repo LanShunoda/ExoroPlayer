@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.devbrackets.android.exomedia.EMVideoView;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.controllers.SubtitlesController;
-import com.plorial.exoroplayer.events.VideoStatusEvent;
+import com.plorial.exoroplayer.model.events.VideoStatusEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,8 +29,9 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     private TextView firstSubtitleText;
     private TextView secondSubtitleText;
 
-    String videoSource = "http://88.150.128.154/temp/PI0sv7uatPIGSkctf7QjgA/1460779524/igra_prestolov/org/s4/1.mp4";
+//    String videoSource = "http://88.150.128.154/temp/PI0sv7uatPIGSkctf7QjgA/1460779524/igra_prestolov/org/s4/1.mp4";
     private boolean doubleSubsReady = false;
+    private String videoSource;
 
     @Nullable
     @Override
@@ -48,7 +49,10 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
 
         emVideoView.setOnPreparedListener(this);
 
-        emVideoView.setVideoURI(Uri.parse(videoSource));
+        videoSource = getArguments().getString(FileExplorerFragment.FILE_PATH);
+
+//        emVideoView.setVideoURI(Uri.parse(videoSource));
+        emVideoView.setVideoPath(videoSource);
     }
 
     @Override

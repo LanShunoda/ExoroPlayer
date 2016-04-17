@@ -18,7 +18,7 @@ import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
 import com.dropbox.core.v2.users.FullAccount;
-import com.plorial.exoroplayer.events.VideoStatusEvent;
+import com.plorial.exoroplayer.model.events.VideoStatusEvent;
 import com.sri.subtitlessupport.utils.FormatSRT;
 import com.sri.subtitlessupport.utils.TimedTextObject;
 

@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.plorial.exoroplayer.events.VideoStatusEvent;
+import com.plorial.exoroplayer.model.events.VideoStatusEvent;
 import com.plorial.exoroplayer.model.TranslateTask;
 
 import org.greenrobot.eventbus.EventBus;
