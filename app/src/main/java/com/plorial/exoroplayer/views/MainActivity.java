@@ -17,12 +17,13 @@ public class MainActivity extends AppCompatActivity implements FileChooseFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        FileExplorerFragment fileExplorerFragment = new FileExplorerFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.add(R.id.fragment_container, fileExplorerFragment);
-        transaction.addToBackStack(FileExplorerFragment.CLASS_NAME);
-        transaction.commit();
+        if (savedInstanceState == null) {
+            FileExplorerFragment fileExplorerFragment = new FileExplorerFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.add(R.id.fragment_container, fileExplorerFragment);
+            transaction.addToBackStack(FileExplorerFragment.CLASS_NAME);
+            transaction.commit();
+        }
     }
 
     @Override

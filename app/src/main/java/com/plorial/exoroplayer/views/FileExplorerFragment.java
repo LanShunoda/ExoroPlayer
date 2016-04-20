@@ -94,6 +94,7 @@ public class FileExplorerFragment extends Fragment {
 
    public Bundle getSaveInstanceStateBundle(){
        Bundle bundle = new Bundle();
+       etVideoName.setHint("");
        bundle.putString("ET_VIDEO",etVideoName.getText().toString());
        bundle.putString("VIDEO_PATH", videoPath);
        bundle.putString("ET_SUB1", etSub1Path.getText().toString());

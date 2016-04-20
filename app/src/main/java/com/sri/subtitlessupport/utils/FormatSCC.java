@@ -647,7 +647,7 @@ public class FormatSCC implements TimedTextFileFormat {
 			case ')':
 				toReturn += "29";
 				break;
-			case 'Ã':
+			case 'Ãƒ':
 				toReturn += "2a";
 				break;
 			case '+':
