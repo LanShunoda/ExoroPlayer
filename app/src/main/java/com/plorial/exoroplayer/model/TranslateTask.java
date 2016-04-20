@@ -54,5 +54,4 @@ public class TranslateTask extends AsyncTask<String, Void, String> {
         }
         return translated;
     }
-
 }

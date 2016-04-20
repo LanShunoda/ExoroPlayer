@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements FileChooseFragmen
 
         Bundle bundle = new Bundle();
         bundle.putString(FileExplorerFragment.FILE_PATH,o.getPath());
-        bundle.putString(FileExplorerFragment.FILE_NAME,o.getName());
         bundle.putBundle(FileExplorerFragment.CLASS_NAME, fileExplorerBundle);
         FileExplorerFragment fragment = new FileExplorerFragment();
 

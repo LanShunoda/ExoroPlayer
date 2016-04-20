@@ -22,10 +22,11 @@ public class SubtitleProcessor implements Runnable {
     private TextView subtitleText;
     private TimedTextObject srt;
 
-    public SubtitleProcessor(Handler subtitleDisplayHandler, EMVideoView emVideoView, TextView subtitleText) {
+    public SubtitleProcessor(Handler subtitleDisplayHandler, EMVideoView emVideoView, TextView subtitleText, TimedTextObject srt) {
         this.subtitleDisplayHandler = subtitleDisplayHandler;
         this.emVideoView = emVideoView;
         this.subtitleText = subtitleText;
+        this.srt = srt;
     }
 
     @Override
@@ -47,10 +48,6 @@ public class SubtitleProcessor implements Runnable {
         subtitleDisplayHandler.postDelayed(this, 100);
     }
 
-    public void addSrt(TimedTextObject srt){
-        this.srt = srt;
-    }
-
     private void onTimedText(Caption text) {
         if (text == null) {
             subtitleText.setVisibility(View.INVISIBLE);
@@ -59,6 +56,5 @@ public class SubtitleProcessor implements Runnable {
         subtitleText.setText(Html.fromHtml(text.content));
         subtitleText.setVisibility(View.VISIBLE);
         Log.d("TAG", text.content);
-
     }
 }

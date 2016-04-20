@@ -48,9 +48,9 @@ public class FileExplorerClickListener implements View.OnClickListener {
         VideoFragment videoFragment = new VideoFragment();
         Bundle bundle = new Bundle();
         FragmentManager manager = fragment.getActivity().getFragmentManager();
-        bundle.putString(VideoFragment.VIDEO_PATH, fragment.videoPath);
-        bundle.putString(VideoFragment.SRT1_PATH, fragment.sub1Path);
-        bundle.putString(VideoFragment.SRT2_PATH, fragment.sub2Path);
+        bundle.putString(VideoFragment.VIDEO_PATH, fragment.getVideoPath());
+        bundle.putString(VideoFragment.SRT1_PATH, fragment.getSub1Path());
+        bundle.putString(VideoFragment.SRT2_PATH, fragment.getSub2Path());
         videoFragment.setArguments(bundle);
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, videoFragment);
