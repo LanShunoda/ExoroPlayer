@@ -62,7 +62,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
                 image = c.getResources().getDrawable(imageResource);
                 imageCity.setImageDrawable(image);
             }catch (Resources.NotFoundException e ){
-                Log.e("FileArrayAdapter", "Cant find image");
+//                Log.e("FileArrayAdapter", "Cant find image");
             }
 
             if(t1!=null)

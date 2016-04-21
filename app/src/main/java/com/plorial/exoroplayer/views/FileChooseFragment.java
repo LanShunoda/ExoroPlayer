@@ -3,6 +3,7 @@ package com.plorial.exoroplayer.views;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -35,38 +36,33 @@ public class FileChooseFragment extends ListFragment{
     private void fill(File f)
     {
         File[]dirs = f.listFiles();
-        getActivity().setTitle("Current Dir: "+f.getName());
+//        getActivity().setTitle("Current Dir: "+f.getName());
+        Log.d(getClass().getSimpleName(),"Current Dir: "+f.getPath());
         List<Item> dir = new ArrayList<Item>();
         List<Item>fls = new ArrayList<Item>();
-        try{
-            for(File ff: dirs)
-            {
+        try {
+            for (File ff : dirs) {
                 Date lastModDate = new Date(ff.lastModified());
                 DateFormat formater = DateFormat.getDateTimeInstance();
                 String date_modify = formater.format(lastModDate);
-                if(ff.isDirectory()){
-
+                if (ff.isDirectory()) {
 
                     File[] fbuf = ff.listFiles();
                     int buf = 0;
-                    if(fbuf != null){
+                    if (fbuf != null) {
                         buf = fbuf.length;
-                    }
-                    else buf = 0;
+                    } else buf = 0;
                     String num_item = String.valueOf(buf);
-                    if(buf == 0) num_item = num_item + " item";
+                    if (buf == 0) num_item = num_item + " item";
                     else num_item = num_item + " items";
 
                     //String formated = lastModDate.toString();
-                    dir.add(new Item(ff.getName(),num_item,date_modify,ff.getAbsolutePath(),"directory_icon"));
-                }
-                else
-                {
-                    fls.add(new Item(ff.getName(),ff.length() + " Byte", date_modify, ff.getAbsolutePath(),"file_icon"));
+                    dir.add(new Item(ff.getName(), num_item, date_modify, ff.getAbsolutePath(), "directory_icon"));
+                } else {
+                    fls.add(new Item(ff.getName(), ff.length() + " Byte", date_modify, ff.getAbsolutePath(), "file_icon"));
                 }
             }
-        }catch(Exception e)
-        {
+        }catch (Exception e){
 
         }
         Collections.sort(dir);
@@ -83,7 +79,17 @@ public class FileChooseFragment extends ListFragment{
         super.onListItemClick(l, v, position, id);
         Item o = adapter.getItem(position);
         if(o.getImage().equalsIgnoreCase("directory_icon")||o.getImage().equalsIgnoreCase("directory_up")){
-            currentDir = new File(o.getPath());
+            switch (o.getImage()){
+                case "directory_icon":
+                    currentDir = new File(o.getPath());
+                    break;
+                case "directory_up":
+                    if (o.getPath() == null) {
+                        return;
+                    }else {
+                        currentDir = new File(o.getPath());
+                    }
+            }
             fill(currentDir);
         }
         else {
