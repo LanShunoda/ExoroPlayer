@@ -55,6 +55,12 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
                 case "directory_up":
                     imageCity.setImageResource(R.drawable.arrow_up);
                     break;
+                case "video":
+                    imageCity.setImageResource(R.drawable.filmstrip);
+                    break;
+                case "subtitles":
+                    imageCity.setImageResource(R.drawable.ic_subtitles_black_24dp);
+                    break;
             }
             if(t1!=null)
                 t1.setText(o.getName());

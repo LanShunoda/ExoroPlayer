@@ -9,7 +9,12 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.plorial.exoroplayer.model.events.VideoStatusEvent;
+import com.sri.subtitlessupport.utils.FatalParsingException;
+import com.sri.subtitlessupport.utils.FormatASS;
+import com.sri.subtitlessupport.utils.FormatSCC;
 import com.sri.subtitlessupport.utils.FormatSRT;
+import com.sri.subtitlessupport.utils.FormatSTL;
+import com.sri.subtitlessupport.utils.FormatTTML;
 import com.sri.subtitlessupport.utils.TimedTextObject;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,11 +44,35 @@ public class SubtitleProcessingTask extends AsyncTask<String, Void, TimedTextObj
         InputStream stream = null;
         try {
             stream = new FileInputStream(f);
-            FormatSRT formatSRT = new FormatSRT();
-            srt = formatSRT.parseFile("sample.srt", stream);
+            switch (SubtitlesUtil.getSubtitlesType(f.getAbsolutePath())){
+                case SRT:
+                    FormatSRT formatSRT = new FormatSRT();
+                    srt = formatSRT.parseFile("sample.srt", stream);
+                    break;
+                case ASS:
+                    FormatASS formatASS = new FormatASS();
+                    srt = formatASS.parseFile("sample.ass", stream);
+                    break;
+                case SCC:
+                    FormatSCC formatSCC = new FormatSCC();
+                    srt = formatSCC.parseFile("sample.scc", stream);
+                    break;
+                case STL:
+                    FormatSTL formatSTL = new FormatSTL();
+                    srt = formatSTL.parseFile("sample.stl", stream);
+                    break;
+                case TTML:
+                    FormatTTML formatTTML = new FormatTTML();
+                    srt = formatTTML.parseFile("sample.ttml", stream);
+                    break;
+                case UNKNOWN:
+                    break;
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (FatalParsingException e) {
             e.printStackTrace();
         }
         return srt;

@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.devbrackets.android.exomedia.util.MediaUtil;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.model.FileArrayAdapter;
 import com.plorial.exoroplayer.model.Item;
+import com.plorial.exoroplayer.model.SubtitlesUtil;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -45,7 +47,6 @@ public class FileChooseFragment extends ListFragment {
                 DateFormat formater = DateFormat.getDateTimeInstance();
                 String date_modify = formater.format(lastModDate);
                 if (ff.isDirectory()) {
-
                     File[] fbuf = ff.listFiles();
                     int buf = 0;
                     if (fbuf != null) {
@@ -58,7 +59,17 @@ public class FileChooseFragment extends ListFragment {
                     //String formated = lastModDate.toString();
                     dir.add(new Item(ff.getName(), num_item, date_modify, ff.getAbsolutePath(), "directory_icon"));
                 } else {
-                    fls.add(new Item(ff.getName(), ff.length() + " Byte", date_modify, ff.getAbsolutePath(), "file_icon"));
+                    MediaUtil.MediaType type = MediaUtil.getMediaType(ff.getAbsolutePath());
+                    SubtitlesUtil.SubtitlesType subtitlesType = SubtitlesUtil.getSubtitlesType(ff.getAbsolutePath());
+                    if (type.equals(MediaUtil.MediaType.UNKNOWN)) {
+                        if (subtitlesType.equals(SubtitlesUtil.SubtitlesType.UNKNOWN)) {
+                            fls.add(new Item(ff.getName(), ff.length() + " Byte", date_modify, ff.getAbsolutePath(), "file_icon"));
+                        }else {
+                            fls.add(new Item(ff.getName(), ff.length() + " Byte", date_modify, ff.getAbsolutePath(), "subtitles"));
+                        }
+                    }else {
+                        fls.add(new Item(ff.getName(), ff.length() + " Byte", date_modify, ff.getAbsolutePath(), "video"));
+                    }
                 }
             }
         }catch (Exception e) {

@@ -27,5 +27,4 @@ dependencies {
     compile 'com.android.support:design:23.3.0'
     compile 'com.devbrackets.android:exomedia:2.5.6'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.dropbox.core:dropbox-core-sdk:2.0.1'
 }

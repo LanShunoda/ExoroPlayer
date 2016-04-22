@@ -68,6 +68,8 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         if (srt1Source == null && srt2Source == null){
             doubleSubsReady = true;
             EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
+            firstSubtitleText.setVisibility(View.GONE);
+            secondSubtitleText.setVisibility(View.GONE);
         }else if (srt1Source == null || srt2Source == null){
             EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
             if(srt1Source != null){
