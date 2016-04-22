@@ -58,7 +58,7 @@ public class FileExplorerClickListener implements View.OnClickListener {
         transaction.commit();
     }
 
-    public void getFile(){
+    public void getFile() {
         FragmentManager manager = fragment.getActivity().getFragmentManager();
         EventBus.getDefault().post(fragment.getSaveInstanceStateBundle());
         manager.putFragment(fragment.getSaveInstanceStateBundle(),FileExplorerFragment.CLASS_NAME,fragment);

@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by plorial on 4/16/16.
  */
-public class FileChooseFragment extends ListFragment{
+public class FileChooseFragment extends ListFragment {
     private File currentDir;
     private FileArrayAdapter adapter;
     OnFileSelectedListener mCallback;
@@ -33,8 +33,7 @@ public class FileChooseFragment extends ListFragment{
         fill(getActivity().getFilesDir());
     }
 
-    private void fill(File f)
-    {
+    private void fill(File f) {
         File[]dirs = f.listFiles();
 //        getActivity().setTitle("Current Dir: "+f.getName());
         Log.d(getClass().getSimpleName(),"Current Dir: "+f.getPath());
@@ -62,7 +61,7 @@ public class FileChooseFragment extends ListFragment{
                     fls.add(new Item(ff.getName(), ff.length() + " Byte", date_modify, ff.getAbsolutePath(), "file_icon"));
                 }
             }
-        }catch (Exception e){
+        }catch (Exception e) {
 
         }
         Collections.sort(dir);
@@ -101,7 +100,6 @@ public class FileChooseFragment extends ListFragment{
         mCallback.onFileSelected(o);
     }
 
-    // Container Activity must implement this interface
     public interface OnFileSelectedListener {
         public void onFileSelected(Item o);
     }
@@ -109,8 +107,6 @@ public class FileChooseFragment extends ListFragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
         try {
             mCallback = (OnFileSelectedListener) activity;
         } catch (ClassCastException e) {
