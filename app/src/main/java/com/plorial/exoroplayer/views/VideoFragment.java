@@ -8,11 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.MediaController;
 import android.widget.TextView;
+
 
 import com.devbrackets.android.exomedia.EMVideoView;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.controllers.SubtitlesController;
+import com.plorial.exoroplayer.controllers.VideoControl;
 import com.plorial.exoroplayer.model.events.VideoStatusEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,6 +34,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     private EMVideoView emVideoView;
     private TextView firstSubtitleText;
     private TextView secondSubtitleText;
+    private View controlsHolder;
 
     private boolean doubleSubsReady = false;
     private String videoSource;
@@ -45,6 +49,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         firstSubtitleText = (TextView) view.findViewById(R.id.firstSubtitleText);
         secondSubtitleText = (TextView) view.findViewById(R.id.secondSubtitleText);
         emVideoView = (EMVideoView) view.findViewById(R.id.video_play_activity_video_view);
+        controlsHolder = view.findViewById(R.id.controlsHolder);
 
         videoSource = getArguments().getString(VIDEO_PATH);
         srt1Source = getArguments().getString(SRT1_PATH);
@@ -57,11 +62,23 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     private void setupVideoView() {
         emVideoView.setOnPreparedListener(this);
         emVideoView.setVideoPath(videoSource);
+
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
         prepareSubs();
+        VideoControl videoControl = new VideoControl(emVideoView);
+        final MediaController controller = new MediaController(getActivity());
+        controller.setMediaPlayer(videoControl);
+        controller.setAnchorView(controlsHolder);
+        controller.show(10000);
+       emVideoView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               controller.show(10000);
+           }
+       });
     }
 
     private void prepareSubs(){
