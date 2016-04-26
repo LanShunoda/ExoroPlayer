@@ -3,11 +3,12 @@ package com.plorial.exoroplayer.controllers;
 import android.widget.MediaController;
 
 import com.devbrackets.android.exomedia.EMVideoView;
+import com.plorial.exoroplayer.views.VideoControllerView;
 
 /**
  * Created by plorial on 4/26/16.
  */
-public class VideoControl implements MediaController.MediaPlayerControl {
+public class VideoControl implements VideoControllerView.MediaPlayerControl {
 
     private EMVideoView videoView;
 
@@ -29,7 +30,6 @@ public class VideoControl implements MediaController.MediaPlayerControl {
     public int getDuration() {
         return (int) videoView.getDuration();
     }
-
 
     @Override
     public int getCurrentPosition() {
@@ -54,20 +54,5 @@ public class VideoControl implements MediaController.MediaPlayerControl {
     @Override
     public boolean canPause() {
         return true;
-    }
-
-    @Override
-    public boolean canSeekBackward() {
-        return true;
-    }
-
-    @Override
-    public boolean canSeekForward() {
-        return true;
-    }
-
-    @Override
-    public int getAudioSessionId() {
-        throw new UnsupportedOperationException();
     }
 }

@@ -32,13 +32,15 @@
         android:textColor="#ffffff"
         android:layout_above="@+id/firstSubtitleText"/>
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/controlsHolder"
-        android:layout_alignParentTop="true"
-        />
 
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/controlsHolder"
+        >
+    </FrameLayout>
 
 </RelativeLayout>
 
