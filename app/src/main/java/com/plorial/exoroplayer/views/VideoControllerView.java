@@ -215,12 +215,12 @@ public class VideoControllerView extends FrameLayout{
         mShowing = false;
     }
 
-    private String stringForTime(int timeMs) {
-        int totalSeconds = timeMs / 1000;
+    private String stringForTime(long timeMs) {
+        long totalSeconds = timeMs / 1000;
 
-        int seconds = totalSeconds % 60;
-        int minutes = (totalSeconds / 60) % 60;
-        int hours   = totalSeconds / 3600;
+        long seconds = totalSeconds % 60;
+        long minutes = (totalSeconds / 60) % 60;
+        long hours   = totalSeconds / 3600;
 
         mFormatBuilder.setLength(0);
         if (hours > 0) {
@@ -230,13 +230,13 @@ public class VideoControllerView extends FrameLayout{
         }
     }
 
-    private int setProgress() {
+    private long setProgress() {
         if (mPlayer == null || mDragging) {
             return 0;
         }
 
-        int position = mPlayer.getCurrentPosition();
-        int duration = mPlayer.getDuration();
+        long position = mPlayer.getCurrentPosition();
+        long duration = mPlayer.getDuration();
         if (mProgress != null) {
             if (duration > 0) {
                 // use long to avoid overflow
@@ -401,9 +401,9 @@ public class VideoControllerView extends FrameLayout{
                 return;
             }
 
-            int pos = mPlayer.getCurrentPosition();
+            long pos = mPlayer.getCurrentPosition();
             pos -= 5000; // милисекунд
-            mPlayer.seekTo(pos);
+            mPlayer.seekTo((int) pos);
             setProgress();
 
             show(sDefaultTimeout);
@@ -416,9 +416,9 @@ public class VideoControllerView extends FrameLayout{
                 return;
             }
 
-            int pos = mPlayer.getCurrentPosition();
+            long pos = mPlayer.getCurrentPosition();
             pos += 15000; // милисекунд
-            mPlayer.seekTo(pos);
+            mPlayer.seekTo((int)pos);
             setProgress();
 
             show(sDefaultTimeout);
@@ -428,8 +428,8 @@ public class VideoControllerView extends FrameLayout{
     public interface MediaPlayerControl {
         void    start();
         void    pause();
-        int     getDuration();
-        int     getCurrentPosition();
+        long     getDuration();
+        long     getCurrentPosition();
         void    seekTo(int pos);
         boolean isPlaying();
         int     getBufferPercentage();
@@ -449,7 +449,7 @@ public class VideoControllerView extends FrameLayout{
                 return;
             }
 
-            int pos;
+            long pos;
             switch (msg.what) {
                 case FADE_OUT:
                     view.hide();

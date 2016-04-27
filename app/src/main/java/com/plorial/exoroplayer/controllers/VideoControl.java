@@ -27,13 +27,13 @@ public class VideoControl implements VideoControllerView.MediaPlayerControl {
     }
 
     @Override
-    public int getDuration() {
-        return (int) videoView.getDuration();
+    public long getDuration() {
+        return videoView.getDuration();
     }
 
     @Override
-    public int getCurrentPosition() {
-        return (int) videoView.getCurrentPosition();
+    public long getCurrentPosition() {
+        return videoView.getCurrentPosition();
     }
 
     @Override
