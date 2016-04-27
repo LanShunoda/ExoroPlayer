@@ -42,6 +42,22 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     private String srt1Source;
     private String srt2Source;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        int flags = 0;
+        if (android.os.Build.VERSION.SDK_INT >= 19) {
+            Log.d(TAG, "flags sdk 19 ");
+            flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        }else {
+            Log.d(TAG, "flags sdk else");
+            flags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        }
+        flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        getActivity().getWindow().getDecorView().setSystemUiVisibility(flags);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,6 +73,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         srt2Source = getArguments().getString(SRT2_PATH);
         Log.d(TAG, "video source " + videoSource);
         setupVideoView();
+
         return view;
     }
 
