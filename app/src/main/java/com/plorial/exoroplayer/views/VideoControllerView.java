@@ -1,6 +1,8 @@
 package com.plorial.exoroplayer.views;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -19,6 +21,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.plorial.exoroplayer.R;
+import com.wnafee.vector.MorphButton;
 
 import java.lang.ref.WeakReference;
 import java.util.Formatter;
@@ -46,7 +49,7 @@ public class VideoControllerView extends FrameLayout{
     private boolean             mFromXml;
     StringBuilder               mFormatBuilder;
     Formatter                   mFormatter;
-    private ImageButton         mPauseButton;
+    private MorphButton mPauseButton;
     private Handler             mHandler = new MessageHandler(this);
 
     public VideoControllerView(Context context, AttributeSet attrs) {
@@ -115,7 +118,10 @@ public class VideoControllerView extends FrameLayout{
     }
 
     private void initControllerView(View v) {
-        mPauseButton = (ImageButton) v.findViewById(R.id.pause);
+        mPauseButton = (MorphButton) v.findViewById(R.id.play_pause_button);
+        mPauseButton.setBackgroundColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        mPauseButton.setForegroundColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
         if (mPauseButton != null) {
             mPauseButton.requestFocus();
             mPauseButton.setOnClickListener(mPauseListener);
@@ -330,9 +336,9 @@ public class VideoControllerView extends FrameLayout{
         }
 
         if (mPlayer.isPlaying()) {
-            mPauseButton.setImageResource(R.drawable.ic_pause_black_24dp);
+            mPauseButton.setState(MorphButton.MorphState.END, true);
         } else {
-            mPauseButton.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+            mPauseButton.setState(MorphButton.MorphState.START, true);
         }
     }
 

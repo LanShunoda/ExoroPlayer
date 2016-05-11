@@ -3,6 +3,7 @@ package com.plorial.exoroplayer.views;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -31,8 +32,8 @@ public class FileChooseFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        currentDir = new File(getActivity().getFilesDir(),"");
-        fill(getActivity().getFilesDir());
+        currentDir = new File(Environment.getExternalStorageDirectory(),"");
+        fill(currentDir);
     }
 
     private void fill(File f) {

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -41,10 +42,14 @@
             android:textColor="#ffffff" />
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatImageButton
-        android:id="@+id/pause"
-        style="@android:style/MediaButton.Play"
+    <com.wnafee.vector.MorphButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/play_pause_button"
+        app:vc_startDrawable="@drawable/ic_play_to_pause"
+        app:vc_endDrawable="@drawable/ic_pause_to_play"
+        android:background="#00000000"
+        android:tint="#ffffffff"
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true" />
-
 </RelativeLayout>
