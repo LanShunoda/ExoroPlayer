@@ -1,5 +1,6 @@
 package com.plorial.exoroplayer.views;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -211,7 +212,10 @@ public class VideoControllerView extends FrameLayout{
         if (mAnchor == null) {
             return;
         }
+        int flags = 0;
 
+        flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        ((Activity)mPauseButton.getContext()).getWindow().getDecorView().setSystemUiVisibility(flags);
         try {
             mAnchor.removeView(this);
             mHandler.removeMessages(SHOW_PROGRESS);

@@ -46,14 +46,6 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int flags = 0;
-        if (android.os.Build.VERSION.SDK_INT >= 19) {
-            Log.d(TAG, "flags sdk 19 ");
-            flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        }else {
-            Log.d(TAG, "flags sdk else");
-            flags = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        }
         flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         getActivity().getWindow().getDecorView().setSystemUiVisibility(flags);
     }
@@ -65,6 +57,8 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
 
         firstSubtitleText = (TextView) view.findViewById(R.id.firstSubtitleText);
         secondSubtitleText = (TextView) view.findViewById(R.id.secondSubtitleText);
+        firstSubtitleText.setVisibility(View.INVISIBLE);
+        secondSubtitleText.setVisibility(View.INVISIBLE);
         emVideoView = (EMVideoView) view.findViewById(R.id.video_play_activity_video_view);
         controlsHolder = (FrameLayout) view.findViewById(R.id.controlsHolder);
 
@@ -112,6 +106,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
                 SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt2Source);
                 firstSubController.startSubtitles();
             }
+            firstSubtitleText.setVisibility(View.VISIBLE);
             secondSubtitleText.setVisibility(View.GONE);
         }else {
             SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt1Source);
@@ -119,6 +114,8 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
 
             SubtitlesController secondSubController = new SubtitlesController(getActivity(), emVideoView, secondSubtitleText, srt2Source);
             secondSubController.startSubtitles();
+            firstSubtitleText.setVisibility(View.VISIBLE);
+            secondSubtitleText.setVisibility(View.VISIBLE);
         }
     }
 
