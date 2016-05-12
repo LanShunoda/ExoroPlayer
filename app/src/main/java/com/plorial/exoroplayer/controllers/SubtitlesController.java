@@ -22,18 +22,20 @@ public class SubtitlesController {
     private EMVideoView videoView;
     private String srtSource;
     private Handler subtitleDisplayHandler;
+    private TextView tvTranslatedText;
 
-    public SubtitlesController(Context context, EMVideoView videoView, TextView subtitlesText, String srtSource) {
+    public SubtitlesController(Context context, EMVideoView videoView, TextView subtitlesText, String srtSource, TextView tvTranslatedText) {
         this.context = context;
         this.videoView = videoView;
         this.subtitlesText = subtitlesText;
         this.srtSource = srtSource;
+        this.tvTranslatedText = tvTranslatedText;
     }
 
     public void startSubtitles(){
         subtitleDisplayHandler = new Handler();
 
-        subtitlesText.setOnClickListener(new SubtitlesClickListener());
+        subtitlesText.setOnClickListener(new SubtitlesClickListener(tvTranslatedText));
 
         SubtitleProcessingTask subsFetchTask = new SubtitleProcessingTask(context);
         subsFetchTask.execute(srtSource);

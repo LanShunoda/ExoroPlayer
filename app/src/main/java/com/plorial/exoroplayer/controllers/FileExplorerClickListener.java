@@ -3,6 +3,7 @@ package com.plorial.exoroplayer.controllers;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.plorial.exoroplayer.R;
@@ -54,14 +55,12 @@ public class FileExplorerClickListener implements View.OnClickListener {
         videoFragment.setArguments(bundle);
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, videoFragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
     public void getFile() {
         FragmentManager manager = fragment.getActivity().getFragmentManager();
         EventBus.getDefault().post(fragment.getSaveInstanceStateBundle());
-        manager.putFragment(fragment.getSaveInstanceStateBundle(),FileExplorerFragment.CLASS_NAME,fragment);
         FileChooseFragment fileChooseFragment = new FileChooseFragment();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, fileChooseFragment);

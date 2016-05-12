@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.MediaController;
 import android.widget.TextView;
 
 
@@ -41,6 +40,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     private String videoSource;
     private String srt1Source;
     private String srt2Source;
+    private TextView tvTranslatedText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,8 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         secondSubtitleText.setVisibility(View.INVISIBLE);
         emVideoView = (EMVideoView) view.findViewById(R.id.video_play_activity_video_view);
         controlsHolder = (FrameLayout) view.findViewById(R.id.controlsHolder);
-
+        tvTranslatedText = (TextView) view.findViewById(R.id.tvTranslatedText);
+        tvTranslatedText.setVisibility(View.INVISIBLE);
         videoSource = getArguments().getString(VIDEO_PATH);
         srt1Source = getArguments().getString(SRT1_PATH);
         srt2Source = getArguments().getString(SRT2_PATH);
@@ -100,19 +101,19 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         }else if (srt1Source == null || srt2Source == null){
             EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
             if(srt1Source != null){
-                SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt1Source);
+                SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt1Source, tvTranslatedText);
                 firstSubController.startSubtitles();
             }else if(srt2Source != null){
-                SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt2Source);
+                SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt2Source, tvTranslatedText);
                 firstSubController.startSubtitles();
             }
             firstSubtitleText.setVisibility(View.VISIBLE);
             secondSubtitleText.setVisibility(View.GONE);
         }else {
-            SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt1Source);
+            SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt1Source, tvTranslatedText);
             firstSubController.startSubtitles();
 
-            SubtitlesController secondSubController = new SubtitlesController(getActivity(), emVideoView, secondSubtitleText, srt2Source);
+            SubtitlesController secondSubController = new SubtitlesController(getActivity(), emVideoView, secondSubtitleText, srt2Source, tvTranslatedText);
             secondSubController.startSubtitles();
             firstSubtitleText.setVisibility(View.VISIBLE);
             secondSubtitleText.setVisibility(View.VISIBLE);

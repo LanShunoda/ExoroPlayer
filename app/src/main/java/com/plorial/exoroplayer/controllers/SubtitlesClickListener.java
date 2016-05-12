@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.model.events.VideoStatusEvent;
 import com.plorial.exoroplayer.model.TranslateTask;
 
@@ -22,6 +23,12 @@ import java.util.concurrent.ExecutionException;
  * Created by plorial on 4/13/16.
  */
 public class SubtitlesClickListener implements View.OnClickListener {
+
+    private TextView tvTranslatedText;
+
+    public SubtitlesClickListener(TextView tvTranslatedText) {
+        this.tvTranslatedText = tvTranslatedText;
+    }
 
     @Override
     public void onClick(View v) {
@@ -71,8 +78,8 @@ public class SubtitlesClickListener implements View.OnClickListener {
                     e.printStackTrace();
                     translatedWord = "not translated";
                 }
-                Toast.makeText(widget.getContext(), translatedWord, Toast.LENGTH_SHORT)
-                        .show();
+                tvTranslatedText.setVisibility(View.VISIBLE);
+                tvTranslatedText.setText(translatedWord);
             }
 
             public void updateDrawState(TextPaint ds) {

@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -26,7 +27,7 @@ public class TranslateTask extends AsyncTask<String, Void, String> {
         String translated = "";
         String urlStr = URL + KEY;
         String word = params[0];
-        String lang = "ru";
+        String lang = Locale.getDefault().getLanguage();;
         try {
             URL urlObj = null;
 

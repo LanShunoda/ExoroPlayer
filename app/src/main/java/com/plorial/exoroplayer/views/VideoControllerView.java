@@ -354,6 +354,7 @@ public class VideoControllerView extends FrameLayout{
         if (mPlayer.isPlaying()) {
             mPlayer.pause();
         } else {
+            ((Activity)mPauseButton.getContext()).findViewById(R.id.tvTranslatedText).setVisibility(INVISIBLE);
             mPlayer.start();
         }
         updatePausePlay();
