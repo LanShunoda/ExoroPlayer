@@ -1,5 +1,6 @@
 package com.plorial.exoroplayer.views;
 
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +22,9 @@ public class MainActivity extends AppCompatActivity implements FileChooseFragmen
             FileExplorerFragment fileExplorerFragment = new FileExplorerFragment();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.add(R.id.fragment_container, fileExplorerFragment);
-            transaction.addToBackStack(FileExplorerFragment.CLASS_NAME);
             transaction.commit();
+        }else {
+            fileExplorerBundle = savedInstanceState.getBundle(this.getClass().getSimpleName());
         }
     }
 
@@ -37,8 +39,13 @@ public class MainActivity extends AppCompatActivity implements FileChooseFragmen
         fragment.setArguments(bundle);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(FileExplorerFragment.CLASS_NAME);
         transaction.commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBundle(this.getClass().getSimpleName(), fileExplorerBundle);
     }
 
     @Subscribe
