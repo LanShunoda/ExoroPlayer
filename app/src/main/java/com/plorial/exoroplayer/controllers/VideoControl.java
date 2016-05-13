@@ -4,6 +4,7 @@ import android.widget.MediaController;
 
 import com.devbrackets.android.exomedia.EMVideoView;
 import com.plorial.exoroplayer.views.VideoControllerView;
+import com.plorial.exoroplayer.views.VideoFragment;
 
 /**
  * Created by plorial on 4/26/16.
@@ -24,6 +25,7 @@ public class VideoControl implements VideoControllerView.MediaPlayerControl {
     @Override
     public void pause() {
         videoView.pause();
+        VideoFragment.loadAd();
     }
 
     @Override

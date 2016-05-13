@@ -3,7 +3,9 @@ package com.plorial.exoroplayer.views;
 import android.app.Fragment;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,9 @@ import android.widget.TextView;
 
 
 import com.devbrackets.android.exomedia.EMVideoView;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.controllers.SubtitlesController;
 import com.plorial.exoroplayer.controllers.VideoControl;
@@ -32,6 +37,8 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     public static final String VIDEO_PATH = "VIDEO_PATH";
     public static final String SRT1_PATH = "SRT1";
     public static final String SRT2_PATH = "SRT2";
+    private static String DEVICE_ID;
+
     private EMVideoView emVideoView;
     private TextView firstSubtitleText;
     private TextView secondSubtitleText;
@@ -44,10 +51,21 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     private String srt2Source;
     private TextView tvTranslatedText;
     private ProgressBar pbPreparing;
+    public static InterstitialAd ad;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DEVICE_ID = Settings.Secure.getString(getActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
+        ad = new InterstitialAd(getActivity());
+        ad.setAdUnitId(getString(R.string.pause_banner_id));
+        ad.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                showAd();
+            }
+        });
         int flags = 0;
         flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
         getActivity().getWindow().getDecorView().setSystemUiVisibility(flags);
@@ -138,6 +156,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     public void onVideoStatusEvent(VideoStatusEvent event){
         if(event.getMassage() == VideoStatusEvent.PAUSE && emVideoView.isPlaying()) {
             emVideoView.pause();
+            loadAd();
         }
         if(event.getMassage() == VideoStatusEvent.READY_TO_START && doubleSubsReady) {
             emVideoView.start();
@@ -147,6 +166,17 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         }
         if (event.getMassage() == VideoStatusEvent.READY_TO_START && !doubleSubsReady) {
             doubleSubsReady = true;
+        }
+    }
+
+    public static void loadAd(){
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice(DEVICE_ID).build();
+        ad.loadAd(adRequest);
+    }
+
+    private void showAd() {
+        if(ad.isLoaded()){
+            ad.show();
         }
     }
 
