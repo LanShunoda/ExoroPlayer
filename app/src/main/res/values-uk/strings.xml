@@ -14,4 +14,5 @@
     <string name="item">-файл</string>
     <string name="parent_dir">вгору</string>
     <string name="byte_">-Байт</string>
+    <string name="video_path_null">Будь ласка, виберіть відео файл</string>
 </resources>

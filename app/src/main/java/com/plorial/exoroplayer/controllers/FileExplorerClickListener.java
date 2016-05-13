@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.views.FileChooseFragment;
@@ -40,7 +41,11 @@ public class FileExplorerClickListener implements View.OnClickListener {
                 getFile();
                 break;
             case R.id.bStartPlaying:
-                startPlaying();
+                if(fragment.getVideoPath() == null){
+                    Toast.makeText(fragment.getActivity(), R.string.video_path_null,Toast.LENGTH_LONG).show();
+                }else {
+                    startPlaying();
+                }
                 break;
         }
     }

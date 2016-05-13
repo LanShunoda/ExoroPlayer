@@ -20,6 +20,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.plorial.exoroplayer.R;
+import com.plorial.exoroplayer.controllers.ErrorListener;
 import com.plorial.exoroplayer.controllers.SubtitlesController;
 import com.plorial.exoroplayer.controllers.VideoControl;
 import com.plorial.exoroplayer.model.events.VideoStatusEvent;
@@ -95,8 +96,10 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     }
 
     private void setupVideoView() {
+        emVideoView.setOnErrorListener(new ErrorListener(getActivity()));
         emVideoView.setOnPreparedListener(this);
         emVideoView.setVideoPath(videoSource);
+
     }
 
     @Override

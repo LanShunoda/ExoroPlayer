@@ -14,4 +14,5 @@
     <string name="item">-item</string>
     <string name="parent_dir">Parent Directory</string>
     <string name="byte_">-Byte</string>
+    <string name="video_path_null">Please, select video file</string>
 </resources>
