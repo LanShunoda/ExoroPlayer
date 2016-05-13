@@ -1,5 +1,17 @@
 <resources>
-    <string name="app_name">Exoro Player</string>
-    <string name="action_settings">Settings</string>
-    <string name="pause_banner_id">ca-app-pub-5856709212349553/3306985829</string>
+    <string name="app_name" translatable="false">Exoro Player</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="pause_banner_id" translatable="false">ca-app-pub-5856709212349553/3306985829</string>
+    <string name="open_files_from_storage">Open files from storage</string>
+    <string name="video_path">Video path or insert url</string>
+    <string name="first_sub_path">First Sub Path</string>
+    <string name="second_sub_path">Second Sub Path</string>
+    <string name="browser">Browser</string>
+    <string name="play">Play</string>
+    <string name="preparing_subs">Preparing subs...</string>
+    <string name="preparing_video">Preparing video...</string>
+    <string name="items">-items</string>
+    <string name="item">-item</string>
+    <string name="parent_dir">Parent Directory</string>
+    <string name="byte_">-Byte</string>
 </resources>

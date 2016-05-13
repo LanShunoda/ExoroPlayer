@@ -37,7 +37,6 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     public static final String VIDEO_PATH = "VIDEO_PATH";
     public static final String SRT1_PATH = "SRT1";
     public static final String SRT2_PATH = "SRT2";
-    private static String DEVICE_ID;
 
     private EMVideoView emVideoView;
     private TextView firstSubtitleText;
@@ -56,7 +55,6 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DEVICE_ID = Settings.Secure.getString(getActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
         ad = new InterstitialAd(getActivity());
         ad.setAdUnitId(getString(R.string.pause_banner_id));
         ad.setAdListener(new AdListener() {
@@ -84,7 +82,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         controlsHolder = (FrameLayout) view.findViewById(R.id.controlsHolder);
         tvTranslatedText = (TextView) view.findViewById(R.id.tvTranslatedText);
         pbPreparing = (ProgressBar) view.findViewById(R.id.pbPreparing);
-        tvTranslatedText.setText("Preparing video...");
+        tvTranslatedText.setText(R.string.preparing_video);
         videoSource = getArguments().getString(VIDEO_PATH);
         srt1Source = getArguments().getString(SRT1_PATH);
         srt2Source = getArguments().getString(SRT2_PATH);
@@ -115,7 +113,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
            }
        });
         emVideoView.seekTo((int) currentPos);
-        tvTranslatedText.setText("Preparing subs...");
+        tvTranslatedText.setText(R.string.preparing_subs);
     }
 
     private void prepareSubs(){
@@ -170,7 +168,7 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     }
 
     public static void loadAd(){
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice(DEVICE_ID).build();
+        AdRequest adRequest = new AdRequest.Builder().build();
         ad.loadAd(adRequest);
     }
 

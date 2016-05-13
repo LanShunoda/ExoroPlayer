@@ -6,7 +6,7 @@
     <TextView android:id="@+id/textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Open files from storage"
+        android:text="@string/open_files_from_storage"
         android:textSize="18dp"
         android:gravity="center"
         android:layout_marginTop="10dp"
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content">
         <EditText
             android:layout_alignParentLeft="true"
-            android:hint="Video path or insert url"
+            android:hint="@string/video_path"
             android:id="@+id/etVideoPath"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             android:layout_toLeftOf="@+id/bBrowserVideoPath" >
         </EditText>
 
-        <Button android:text="Browser"
+        <Button android:text="@string/browser"
             android:id="@+id/bBrowserVideoPath"
             android:textSize="18dp"
             android:layout_marginTop="10dp"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">
         <TextView
-            android:hint="First Sub Path"
+            android:hint="@string/first_sub_path"
             android:id="@+id/etSub1Path"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:paddingLeft="10dp">
         </TextView>
 
-        <Button android:text="Browser"
+        <Button android:text="@string/browser"
             android:id="@+id/bBrowserSub1Path"
             android:textSize="18dp"
             android:layout_marginTop="10dp"
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">
         <TextView
-            android:hint="Second Sub Path"
+            android:hint="@string/second_sub_path"
             android:id="@+id/etSub2Path"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
             android:paddingLeft="10dp">
         </TextView>
 
-        <Button android:text="Browser"
+        <Button android:text="@string/browser"
             android:id="@+id/bBrowserSub2Path"
             android:textSize="18dp"
             android:layout_marginTop="10dp"
@@ -95,7 +95,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Play"
+        android:text="@string/play"
         android:id="@+id/bStartPlaying"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>

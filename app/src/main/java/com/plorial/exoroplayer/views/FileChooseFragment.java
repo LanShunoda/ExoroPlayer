@@ -64,8 +64,8 @@ public class FileChooseFragment extends ListFragment {
                         buf = fbuf.length;
                     } else buf = 0;
                     String num_item = String.valueOf(buf);
-                    if (buf == 0) num_item = num_item + " item";
-                    else num_item = num_item + " items";
+                    if (buf == 0) num_item = num_item + getActivity().getString(R.string.item);
+                    else num_item = num_item + getActivity().getString(R.string.items);
 
                     //String formated = lastModDate.toString();
                     dir.add(new Item(ff.getName(), num_item, date_modify, ff.getAbsolutePath(), "directory_icon"));
@@ -74,12 +74,12 @@ public class FileChooseFragment extends ListFragment {
                     SubtitlesUtil.SubtitlesType subtitlesType = SubtitlesUtil.getSubtitlesType(ff.getAbsolutePath());
                     if (type.equals(MediaUtil.MediaType.UNKNOWN)) {
                         if (subtitlesType.equals(SubtitlesUtil.SubtitlesType.UNKNOWN)) {
-                            fls.add(new Item(ff.getName(), ff.length() + " Byte", date_modify, ff.getAbsolutePath(), "file_icon"));
+                            fls.add(new Item(ff.getName(), ff.length() + getActivity().getString(R.string.byte_), date_modify, ff.getAbsolutePath(), "file_icon"));
                         }else {
-                            fls.add(new Item(ff.getName(), ff.length() + " Byte", date_modify, ff.getAbsolutePath(), "subtitles"));
+                            fls.add(new Item(ff.getName(), ff.length() + getActivity().getString(R.string.byte_), date_modify, ff.getAbsolutePath(), "subtitles"));
                         }
                     }else {
-                        fls.add(new Item(ff.getName(), ff.length() + " Byte", date_modify, ff.getAbsolutePath(), "video"));
+                        fls.add(new Item(ff.getName(), ff.length() + getActivity().getString(R.string.byte_), date_modify, ff.getAbsolutePath(), "video"));
                     }
                 }
             }
@@ -90,7 +90,7 @@ public class FileChooseFragment extends ListFragment {
         Collections.sort(fls);
         dir.addAll(fls);
         if(!f.getName().equalsIgnoreCase("sdcard"))
-            dir.add(0,new Item("..","Parent Directory","",f.getParent(),"directory_up"));
+            dir.add(0,new Item("..",getActivity().getString(R.string.parent_dir),"",f.getParent(),"directory_up"));
         adapter = new FileArrayAdapter(getActivity(),R.layout.file_view_item,dir);
         this.setListAdapter(adapter);
     }
