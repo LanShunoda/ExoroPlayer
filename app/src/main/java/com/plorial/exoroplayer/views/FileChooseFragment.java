@@ -32,8 +32,18 @@ public class FileChooseFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        currentDir = new File(Environment.getExternalStorageDirectory(),"");
+        if(savedInstanceState != null){
+            currentDir = new File(savedInstanceState.getString(this.getClass().getSimpleName()));
+        } else {
+            currentDir = new File(Environment.getExternalStorageDirectory(), "");
+        }
         fill(currentDir);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(this.getClass().getSimpleName(), currentDir.getAbsolutePath());
     }
 
     private void fill(File f) {

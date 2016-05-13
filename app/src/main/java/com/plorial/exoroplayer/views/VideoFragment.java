@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -35,12 +36,14 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     private TextView firstSubtitleText;
     private TextView secondSubtitleText;
     private FrameLayout controlsHolder;
+    private long currentPos;
 
     private boolean doubleSubsReady = false;
     private String videoSource;
     private String srt1Source;
     private String srt2Source;
     private TextView tvTranslatedText;
+    private ProgressBar pbPreparing;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,13 +65,16 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         emVideoView = (EMVideoView) view.findViewById(R.id.video_play_activity_video_view);
         controlsHolder = (FrameLayout) view.findViewById(R.id.controlsHolder);
         tvTranslatedText = (TextView) view.findViewById(R.id.tvTranslatedText);
-        tvTranslatedText.setVisibility(View.INVISIBLE);
+        pbPreparing = (ProgressBar) view.findViewById(R.id.pbPreparing);
+        tvTranslatedText.setText("Preparing video...");
         videoSource = getArguments().getString(VIDEO_PATH);
         srt1Source = getArguments().getString(SRT1_PATH);
         srt2Source = getArguments().getString(SRT2_PATH);
         Log.d(TAG, "video source " + videoSource);
         setupVideoView();
-
+        if(savedInstanceState != null){
+            currentPos = savedInstanceState.getLong("CURRENT_POS");
+        }
         return view;
     }
 
@@ -90,6 +96,8 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
                controller.show(10000);
            }
        });
+        emVideoView.seekTo((int) currentPos);
+        tvTranslatedText.setText("Preparing subs...");
     }
 
     private void prepareSubs(){
@@ -120,6 +128,12 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("CURRENT_POS",emVideoView.getCurrentPosition());
+    }
+
     @Subscribe
     public void onVideoStatusEvent(VideoStatusEvent event){
         if(event.getMassage() == VideoStatusEvent.PAUSE && emVideoView.isPlaying()) {
@@ -127,6 +141,9 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         }
         if(event.getMassage() == VideoStatusEvent.READY_TO_START && doubleSubsReady) {
             emVideoView.start();
+            tvTranslatedText.setVisibility(View.INVISIBLE);
+            tvTranslatedText.setText("");
+            pbPreparing.setVisibility(View.INVISIBLE);
         }
         if (event.getMassage() == VideoStatusEvent.READY_TO_START && !doubleSubsReady) {
             doubleSubsReady = true;

@@ -6,7 +6,7 @@
     <TextView android:id="@+id/textview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Get Files From SDCard"
+        android:text="Open files from storage"
         android:textSize="18dp"
         android:gravity="center"
         android:layout_marginTop="10dp"
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content">
         <EditText
             android:layout_alignParentLeft="true"
-            android:hint="Video path"
+            android:hint="Video path or insert url"
             android:id="@+id/etVideoPath"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -41,19 +41,19 @@
     <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">
-        <EditText
-            android:layout_alignParentLeft="true"
+        <TextView
             android:hint="First Sub Path"
             android:id="@+id/etSub1Path"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="15dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_toLeftOf="@+id/bBrowserSub1Path" >
-        </EditText>
+            android:layout_alignBottom="@+id/bBrowserSub1Path"
+            android:layout_toLeftOf="@+id/bBrowserSub1Path"
+            android:layout_toStartOf="@+id/bBrowserSub1Path"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp">
+        </TextView>
 
         <Button android:text="Browser"
             android:id="@+id/bBrowserSub1Path"
@@ -68,19 +68,19 @@
     <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="wrap_content">
-        <EditText
-            android:layout_alignParentLeft="true"
+        <TextView
             android:hint="Second Sub Path"
             android:id="@+id/etSub2Path"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="15dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:layout_toLeftOf="@+id/bBrowserSub2Path" >
-        </EditText>
+            android:layout_alignBottom="@+id/bBrowserSub2Path"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp">
+        </TextView>
 
         <Button android:text="Browser"
             android:id="@+id/bBrowserSub2Path"
@@ -96,5 +96,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play"
-        android:id="@+id/bStartPlaying" />
+        android:id="@+id/bStartPlaying"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

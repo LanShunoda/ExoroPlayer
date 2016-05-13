@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.controllers.FileExplorerClickListener;
@@ -24,10 +25,10 @@ public class FileExplorerFragment extends Fragment {
     private EditText etVideoPath;
     public static boolean bV = false;
 
-    private EditText etSub1Path;
+    private TextView etSub1Path;
     public static boolean bS1 = false;
 
-    private EditText etSub2Path;
+    private TextView etSub2Path;
     public static boolean bS2 = false;
 
     @Nullable
@@ -64,8 +65,8 @@ public class FileExplorerFragment extends Fragment {
 
     private void initViews(View view) {
         etVideoPath = (EditText) view.findViewById(R.id.etVideoPath);
-        etSub1Path = (EditText) view.findViewById(R.id.etSub1Path);
-        etSub2Path = (EditText) view.findViewById(R.id.etSub2Path);
+        etSub1Path = (TextView) view.findViewById(R.id.etSub1Path);
+        etSub2Path = (TextView) view.findViewById(R.id.etSub2Path);
         FileExplorerClickListener listener = new FileExplorerClickListener(this);
         Button bVideo = (Button) view.findViewById(R.id.bBrowserVideoPath);
         Button bSub1 = (Button) view.findViewById(R.id.bBrowserSub1Path);
