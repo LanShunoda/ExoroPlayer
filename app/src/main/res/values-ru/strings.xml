@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name" translatable="false">Exoro Player</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="pause_banner_id" translatable="false">ca-app-pub-5856709212349553/3306985829</string>
+    <string name="open_files_from_storage">Открыть файлы из хранилища</string>
+    <string name="video_path">Путь к видео или вставте ссылку</string>
+    <string name="first_sub_path">Путь к первым субтитрам</string>
+    <string name="second_sub_path">Путь к вторым субтитрам</string>
+    <string name="browser">Браузер</string>
+    <string name="play">Играть</string>
+    <string name="preparing_subs">Приготовление субтитров...</string>
+    <string name="preparing_video">Приготовление видео...</string>
+    <string name="items">-файлов</string>
+    <string name="item">-файл</string>
+    <string name="parent_dir">Вверх</string>
+    <string name="byte_">-Байт</string>
+</resources>
