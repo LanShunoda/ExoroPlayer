@@ -1,7 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">Exoro Player</string>
-    <string name="action_settings" translatable="false">Settings</string>
-    <string name="pause_banner_id" translatable="false">ca-app-pub-5856709212349553/3306985829</string>
     <string name="open_files_from_storage">Виберіть файли</string>
     <string name="video_path">Шлях до відео, або вставте посилання</string>
     <string name="first_sub_path">Шлях до перших субтитрів</string>

@@ -32,13 +32,14 @@
             android:id="@+id/tvTranslatedText"
             android:layout_gravity="center_horizontal"
             android:textColor="#ffffff"
-            android:background="@color/background_floating_material_dark"/>
+            android:background="#b9424242"
+            android:padding="10dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/secondSubtitleText"
-            android:background="@color/background_floating_material_dark"
+            android:background="#b9424242"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffffff"
@@ -48,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/firstSubtitleText"
-            android:background="@color/background_floating_material_dark"
+            android:background="#b9424242"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:textAlignment="center"
