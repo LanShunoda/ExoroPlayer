@@ -1,10 +1,13 @@
 package com.plorial.exoroplayer.views;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -36,6 +39,8 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     public static final String VIDEO_PATH = "VIDEO_PATH";
     public static final String SRT1_PATH = "SRT1";
     public static final String SRT2_PATH = "SRT2";
+
+    public static int subsCorrector = 0;
 
     private EMVideoView emVideoView;
     private TextView firstSubtitleText;
@@ -92,6 +97,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         srt1Source = getIntent().getExtras().getString(SRT1_PATH);
         srt2Source = getIntent().getExtras().getString(SRT2_PATH);
         Log.d(TAG, "video source " + videoSource);
+        getPreferences();
         setupVideoView();
     }
 
@@ -99,7 +105,6 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         emVideoView.setOnErrorListener(new ErrorListener(this));
         emVideoView.setOnPreparedListener(this);
         emVideoView.setVideoPath(videoSource);
-
     }
 
     @Override
@@ -147,6 +152,26 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
             firstSubtitleText.setVisibility(View.VISIBLE);
             secondSubtitleText.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void getPreferences() {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        float textSize = preferences.getFloat("TEXT_SIZE", 20);
+        int alpha = preferences.getInt("TEXT_ALPHA", 185);
+        updateTextSize(textSize);
+        updateTextAlpha(alpha);
+    }
+
+    private void updateTextSize(float textSize) {
+        firstSubtitleText.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize);
+        secondSubtitleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+        tvTranslatedText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+    }
+
+    private void updateTextAlpha(int alpha){
+        firstSubtitleText.setBackgroundColor(Color.argb(alpha, 42, 42, 42));
+        secondSubtitleText.setBackgroundColor(Color.argb(alpha, 42, 42, 42));
+        tvTranslatedText.setBackgroundColor(Color.argb(alpha, 42, 42, 42));
     }
 
     @Override
