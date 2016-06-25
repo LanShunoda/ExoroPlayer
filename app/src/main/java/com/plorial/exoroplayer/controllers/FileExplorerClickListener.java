@@ -2,15 +2,15 @@ package com.plorial.exoroplayer.controllers;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.views.FileChooseFragment;
 import com.plorial.exoroplayer.views.FileExplorerFragment;
-import com.plorial.exoroplayer.views.VideoFragment;
+import com.plorial.exoroplayer.views.VideoActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,16 +51,11 @@ public class FileExplorerClickListener implements View.OnClickListener {
     }
 
     private void startPlaying() {
-        VideoFragment videoFragment = new VideoFragment();
-        Bundle bundle = new Bundle();
-        FragmentManager manager = fragment.getActivity().getFragmentManager();
-        bundle.putString(VideoFragment.VIDEO_PATH, fragment.getVideoPath());
-        bundle.putString(VideoFragment.SRT1_PATH, fragment.getSub1Path());
-        bundle.putString(VideoFragment.SRT2_PATH, fragment.getSub2Path());
-        videoFragment.setArguments(bundle);
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.fragment_container, videoFragment);
-        transaction.commit();
+        Intent intent = new Intent(fragment.getActivity(),VideoActivity.class);
+        intent.putExtra(VideoActivity.VIDEO_PATH, fragment.getVideoPath());
+        intent.putExtra(VideoActivity.SRT1_PATH, fragment.getSub1Path());
+        intent.putExtra(VideoActivity.SRT2_PATH, fragment.getSub2Path());
+        fragment.getActivity().startActivity(intent);
     }
 
     public void getFile() {

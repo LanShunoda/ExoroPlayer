@@ -1,19 +1,13 @@
 package com.plorial.exoroplayer.views;
 
-import android.app.Fragment;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.telephony.TelephonyManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 
 import com.devbrackets.android.exomedia.EMVideoView;
 import com.google.android.gms.ads.AdListener;
@@ -28,12 +22,14 @@ import com.plorial.exoroplayer.model.events.VideoStatusEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-/**
- * Created by plorial on 4/15/16.
- */
-public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedListener{
 
-    private static final String TAG = VideoFragment.class.getSimpleName();
+
+/**
+ * Created by plorial on 6/25/16.
+ */
+public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
+
+    private static final String TAG = VideoActivity.class.getSimpleName();
 
     public static final String VIDEO_PATH = "VIDEO_PATH";
     public static final String SRT1_PATH = "SRT1";
@@ -56,7 +52,20 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ad = new InterstitialAd(getActivity());
+        setContentView(R.layout.video_activity);
+        setUpViews();
+        if(savedInstanceState != null){
+            currentPos = savedInstanceState.getLong("CURRENT_POS");
+        }
+        setUpAd();
+
+        int flags = 0;
+        flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        getWindow().getDecorView().setSystemUiVisibility(flags);
+    }
+
+    private void setUpAd() {
+        ad = new InterstitialAd(this);
         ad.setAdUnitId(getString(R.string.pause_banner_id));
         ad.setAdListener(new AdListener() {
             @Override
@@ -65,38 +74,28 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
                 showAd();
             }
         });
-        int flags = 0;
-        flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-        getActivity().getWindow().getDecorView().setSystemUiVisibility(flags);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.video_fragment, container, false);
-
-        firstSubtitleText = (TextView) view.findViewById(R.id.firstSubtitleText);
-        secondSubtitleText = (TextView) view.findViewById(R.id.secondSubtitleText);
+    private void setUpViews() {
+        firstSubtitleText = (TextView) findViewById(R.id.firstSubtitleText);
+        secondSubtitleText = (TextView) findViewById(R.id.secondSubtitleText);
         firstSubtitleText.setVisibility(View.INVISIBLE);
         secondSubtitleText.setVisibility(View.INVISIBLE);
-        emVideoView = (EMVideoView) view.findViewById(R.id.video_play_activity_video_view);
-        controlsHolder = (FrameLayout) view.findViewById(R.id.controlsHolder);
-        tvTranslatedText = (TextView) view.findViewById(R.id.tvTranslatedText);
-        pbPreparing = (ProgressBar) view.findViewById(R.id.pbPreparing);
+        emVideoView = (EMVideoView) findViewById(R.id.video_play_activity_video_view);
+        controlsHolder = (FrameLayout) findViewById(R.id.controlsHolder);
+        tvTranslatedText = (TextView) findViewById(R.id.tvTranslatedText);
+        pbPreparing = (ProgressBar) findViewById(R.id.pbPreparing);
         tvTranslatedText.setText(R.string.preparing_video);
-        videoSource = getArguments().getString(VIDEO_PATH);
-        srt1Source = getArguments().getString(SRT1_PATH);
-        srt2Source = getArguments().getString(SRT2_PATH);
+        videoSource = getIntent().getExtras().getString(VIDEO_PATH);
+        srt1Source = getIntent().getExtras().getString(SRT1_PATH);
+        srt2Source = getIntent().getExtras().getString(SRT2_PATH);
         Log.d(TAG, "video source " + videoSource);
         setupVideoView();
-        if(savedInstanceState != null){
-            currentPos = savedInstanceState.getLong("CURRENT_POS");
-        }
-        return view;
+
     }
 
     private void setupVideoView() {
-        emVideoView.setOnErrorListener(new ErrorListener(getActivity()));
+        emVideoView.setOnErrorListener(new ErrorListener(this));
         emVideoView.setOnPreparedListener(this);
         emVideoView.setVideoPath(videoSource);
 
@@ -106,15 +105,15 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
     public void onPrepared(MediaPlayer mp) {
         prepareSubs();
         VideoControl videoControl = new VideoControl(emVideoView);
-        final VideoControllerView controller = new VideoControllerView(getActivity());
+        final VideoControllerView controller = new VideoControllerView(this);
         controller.setMediaPlayer(videoControl);
         controller.setAnchorView(controlsHolder);
-       emVideoView.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               controller.show(10000);
-           }
-       });
+        emVideoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.show(10000);
+            }
+        });
         emVideoView.seekTo((int) currentPos);
         tvTranslatedText.setText(R.string.preparing_subs);
     }
@@ -128,19 +127,19 @@ public class VideoFragment extends Fragment implements MediaPlayer.OnPreparedLis
         }else if (srt1Source == null || srt2Source == null){
             EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
             if(srt1Source != null){
-                SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt1Source, tvTranslatedText);
+                SubtitlesController firstSubController = new SubtitlesController(this, emVideoView, firstSubtitleText, srt1Source, tvTranslatedText);
                 firstSubController.startSubtitles();
             }else if(srt2Source != null){
-                SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt2Source, tvTranslatedText);
+                SubtitlesController firstSubController = new SubtitlesController(this, emVideoView, firstSubtitleText, srt2Source, tvTranslatedText);
                 firstSubController.startSubtitles();
             }
             firstSubtitleText.setVisibility(View.VISIBLE);
             secondSubtitleText.setVisibility(View.GONE);
         }else {
-            SubtitlesController firstSubController = new SubtitlesController(getActivity(), emVideoView, firstSubtitleText, srt1Source, tvTranslatedText);
+            SubtitlesController firstSubController = new SubtitlesController(this, emVideoView, firstSubtitleText, srt1Source, tvTranslatedText);
             firstSubController.startSubtitles();
 
-            SubtitlesController secondSubController = new SubtitlesController(getActivity(), emVideoView, secondSubtitleText, srt2Source, tvTranslatedText);
+            SubtitlesController secondSubController = new SubtitlesController(this, emVideoView, secondSubtitleText, srt2Source, tvTranslatedText);
             secondSubController.startSubtitles();
             firstSubtitleText.setVisibility(View.VISIBLE);
             secondSubtitleText.setVisibility(View.VISIBLE);
