@@ -3,6 +3,7 @@ package com.plorial.exoroplayer.views;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,6 +16,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.controllers.ErrorListener;
+import com.plorial.exoroplayer.controllers.SettingsClickListener;
 import com.plorial.exoroplayer.controllers.SubtitlesController;
 import com.plorial.exoroplayer.controllers.VideoControl;
 import com.plorial.exoroplayer.model.events.VideoStatusEvent;
@@ -91,7 +93,6 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         srt2Source = getIntent().getExtras().getString(SRT2_PATH);
         Log.d(TAG, "video source " + videoSource);
         setupVideoView();
-
     }
 
     private void setupVideoView() {
@@ -114,6 +115,8 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
                 controller.show(10000);
             }
         });
+        AppCompatImageButton settingsButton = (AppCompatImageButton) controller.getRoot().findViewById(R.id.settings_button);
+        settingsButton.setOnClickListener(new SettingsClickListener(this));
         emVideoView.seekTo((int) currentPos);
         tvTranslatedText.setText(R.string.preparing_subs);
     }

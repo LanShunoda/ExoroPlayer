@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +23,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.plorial.exoroplayer.R;
+import com.plorial.exoroplayer.controllers.SettingsClickListener;
 import com.wnafee.vector.MorphButton;
 
 import java.lang.ref.WeakReference;
@@ -87,6 +89,10 @@ public class VideoControllerView extends FrameLayout{
     public void setMediaPlayer(MediaPlayerControl player) {
         mPlayer = player;
         updatePausePlay();
+    }
+
+    public View getRoot() {
+        return mRoot;
     }
 
     /**
