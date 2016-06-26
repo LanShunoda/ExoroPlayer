@@ -28,8 +28,6 @@ import com.plorial.exoroplayer.model.events.VideoStatusEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-
-
 /**
  * Created by plorial on 6/25/16.
  */
@@ -69,12 +67,25 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         setUpAd();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            uiFlags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         } else {
-            uiFlags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
         }
-
-        getWindow().getDecorView().setSystemUiVisibility(uiFlags);
+        final View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(uiFlags);
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int i) {
+                decorView.setSystemUiVisibility(uiFlags);
+            }
+        });
     }
 
     private void setUpAd() {
@@ -90,14 +101,12 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
             @Override
             public void onAdOpened() {
                 super.onAdOpened();
-                getWindow().getDecorView().setSystemUiVisibility(uiFlags);
                 emVideoView.pause();
             }
 
             @Override
             public void onAdClosed() {
                 super.onAdClosed();
-                getWindow().getDecorView().setSystemUiVisibility(uiFlags);
                 emVideoView.start();
             }
         });
@@ -249,6 +258,5 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     @Override
     public void onUpdateSettings() {
         getPreferences();
-        getWindow().getDecorView().setSystemUiVisibility(uiFlags);
     }
 }
