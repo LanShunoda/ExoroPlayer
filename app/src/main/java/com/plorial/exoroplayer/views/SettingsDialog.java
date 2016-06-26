@@ -1,5 +1,6 @@
 package com.plorial.exoroplayer.views;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -34,12 +35,19 @@ public class SettingsDialog extends DialogFragment {
         final NumberPicker pickerAlpha = (NumberPicker) view.findViewById(R.id.pickerSubsAlpha);
         pickerAlpha.setMaxValue(255);
         pickerAlpha.setMinValue(0);
-        pickerAlpha.setValue((int) preferences.getInt("TEXT_ALPHA",185));
+        pickerAlpha.setValue(preferences.getInt("TEXT_ALPHA",185));
         final NumberPicker pickerTime = (NumberPicker) view.findViewById(R.id.pickerSubsTime);
-        pickerTime.setMaxValue(100);
+        final int minValue = -50;
+        final int maxValue = 50;
+        pickerTime.setMaxValue(maxValue - minValue);
         pickerTime.setMinValue(0);
-        pickerTime.setValue(VideoActivity.subsCorrector);
-
+        pickerTime.setValue(VideoActivity.subsCorrector - minValue);
+        pickerTime.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int index) {
+                return Integer.toString(index + minValue);
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
@@ -51,10 +59,17 @@ public class SettingsDialog extends DialogFragment {
                         edit.putInt("TEXT_ALPHA", pickerAlpha.getValue());
                         edit.putFloat("TEXT_SIZE", pickerSize.getValue());
                         edit.commit();
-                        VideoActivity.subsCorrector = pickerTime.getValue();
+                        VideoActivity.subsCorrector = pickerTime.getValue() + minValue;
                         EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
+                        Activity activity = getActivity();
+                        if (activity instanceof OnUpdateSettingsListener){
+                            ((OnUpdateSettingsListener)activity).onUpdateSettings();
+                        }
                     }
                 });
         return builder.create();
+    }
+    public interface OnUpdateSettingsListener {
+        void onUpdateSettings();
     }
 }

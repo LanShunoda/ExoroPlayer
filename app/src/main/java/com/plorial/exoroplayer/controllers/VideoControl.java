@@ -23,7 +23,6 @@ public class VideoControl implements VideoControllerView.MediaPlayerControl {
     @Override
     public void pause() {
         videoView.pause();
-        VideoActivity.loadAd();
     }
 
     @Override

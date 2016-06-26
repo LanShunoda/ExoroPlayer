@@ -3,6 +3,7 @@ package com.plorial.exoroplayer.views;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
@@ -32,7 +33,7 @@ import org.greenrobot.eventbus.Subscribe;
 /**
  * Created by plorial on 6/25/16.
  */
-public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
+public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener, SettingsDialog.OnUpdateSettingsListener{
 
     private static final String TAG = VideoActivity.class.getSimpleName();
 
@@ -55,6 +56,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     private TextView tvTranslatedText;
     private ProgressBar pbPreparing;
     public static InterstitialAd ad;
+    private int uiFlags;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,9 +68,13 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         }
         setUpAd();
 
-        int flags = 0;
-        flags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-        getWindow().getDecorView().setSystemUiVisibility(flags);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            uiFlags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        } else {
+            uiFlags = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        }
+
+        getWindow().getDecorView().setSystemUiVisibility(uiFlags);
     }
 
     private void setUpAd() {
@@ -79,6 +85,20 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
             public void onAdLoaded() {
                 super.onAdLoaded();
                 showAd();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                getWindow().getDecorView().setSystemUiVisibility(uiFlags);
+                emVideoView.pause();
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                getWindow().getDecorView().setSystemUiVisibility(uiFlags);
+                emVideoView.start();
             }
         });
     }
@@ -184,7 +204,6 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     public void onVideoStatusEvent(VideoStatusEvent event){
         if(event.getMassage() == VideoStatusEvent.PAUSE && emVideoView.isPlaying()) {
             emVideoView.pause();
-            loadAd();
         }
         if(event.getMassage() == VideoStatusEvent.READY_TO_START && doubleSubsReady) {
             emVideoView.start();
@@ -197,7 +216,13 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         }
     }
 
-    public static void loadAd(){
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadAd();
+    }
+
+    public void loadAd(){
         AdRequest adRequest = new AdRequest.Builder().build();
         ad.loadAd(adRequest);
     }
@@ -219,5 +244,11 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         emVideoView.release();
         EventBus.getDefault().unregister(this);
         super.onStop();
+    }
+
+    @Override
+    public void onUpdateSettings() {
+        getPreferences();
+        getWindow().getDecorView().setSystemUiVisibility(uiFlags);
     }
 }
