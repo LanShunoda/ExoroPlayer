@@ -29,4 +29,5 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.wnafee:vector-compat:1.0.5'
     compile 'com.google.android.gms:play-services-ads:9.0.2'
+    compile 'com.karumi:dexter:2.2.2'
 }
