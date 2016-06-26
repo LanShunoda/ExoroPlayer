@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements FileChooseFragmen
         MultiplePermissionsListener dialogMultiplePermissionsListener =
                 DialogOnAnyDeniedMultiplePermissionsListener.Builder
                         .withContext(getApplicationContext())
-                        .withTitle("Read External Storage & Internet permissions")
-                        .withMessage("That permission are needed to open video from internet and local storage")
+                        .withTitle(R.string.rt_permission_title)
+                        .withMessage(R.string.rt_permission_message)
                         .withButtonText(android.R.string.ok)
                         .withIcon(R.mipmap.ic_launcher)
                         .build();

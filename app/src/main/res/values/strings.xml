@@ -15,4 +15,9 @@
     <string name="parent_dir">Parent Directory</string>
     <string name="byte_">-Byte</string>
     <string name="video_path_null">Please, select video file</string>
+    <string name="subs_text_size">Subs Text Size</string>
+    <string name="subs_offset">Subs offset</string>
+    <string name="rt_permission_title"><![CDATA[Read External Storage & Internet permissions]]></string>
+    <string name="rt_permission_message">That permission are needed to open video from internet and local storage</string>
+    <string name="settings">Settings</string>
 </resources>

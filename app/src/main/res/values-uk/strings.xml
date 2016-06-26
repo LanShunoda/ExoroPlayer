@@ -12,4 +12,9 @@
     <string name="parent_dir">вгору</string>
     <string name="byte_">-Байт</string>
     <string name="video_path_null">Будь ласка, виберіть відео файл</string>
+    <string name="rt_permission_title">Дозвіл на читання файлів і доступ до інтернету</string>
+    <string name="rt_permission_message">Ці дозволи потрібні, щоб відкривати локальні файли і файли з інтернету.</string>
+    <string name="settings">Налаштування</string>
+    <string name="subs_offset">Зміщення субтитрів</string>
+    <string name="subs_text_size">Розмір тексту субтитрів</string>
 </resources>

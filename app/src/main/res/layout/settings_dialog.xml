@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subs Text Size"
+            android:text="@string/subs_text_size"
             android:id="@+id/tvSubsSize"
             android:layout_alignBottom="@+id/pickerSubsSize"
             android:layout_alignParentLeft="true"
@@ -44,7 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subs background alpha"
+            android:text="Subs background transparency"
             android:id="@+id/tvSubsAlpha"
             android:layout_alignBottom="@+id/pickerSubsAlpha"
             android:layout_alignParentLeft="true"
@@ -66,7 +66,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subs Time"
+            android:text="@string/subs_offset"
             android:id="@+id/tvSubsTime"
             android:layout_alignBottom="@+id/pickerSubsTime"
             android:layout_alignParentLeft="true"
