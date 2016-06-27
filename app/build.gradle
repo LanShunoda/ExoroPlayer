@@ -30,4 +30,7 @@ dependencies {
     compile 'com.wnafee:vector-compat:1.0.5'
     compile 'com.google.android.gms:play-services-ads:9.0.2'
     compile 'com.karumi:dexter:2.2.2'
+    compile 'com.google.firebase:firebase-database:9.0.2'
+    compile 'com.google.firebase:firebase-storage:9.0.2'
 }
+apply plugin: 'com.google.gms.google-services'
