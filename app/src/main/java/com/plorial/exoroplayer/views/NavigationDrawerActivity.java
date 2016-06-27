@@ -119,16 +119,21 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_open) {
-            // Handle the camera action
+            FileExplorerFragment fileExplorerFragment = new FileExplorerFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, fileExplorerFragment);
+            transaction.commit();
         } else if (id == R.id.nav_series) {
-
+            SeriesFragment fragment = new SeriesFragment();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, fragment);
+            transaction.commit();
         } else if (id == R.id.nav_films) {
 
         }
