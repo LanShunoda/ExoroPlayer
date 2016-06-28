@@ -1,11 +1,28 @@
 package com.plorial.exoroplayer.model;
 
+import android.content.Context;
+import android.graphics.Path;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by plorial on 6/28/16.
@@ -21,7 +38,7 @@ public class DBValueEventListener implements ValueEventListener {
     }
 
     @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
+    public void onDataChange(final DataSnapshot dataSnapshot) {
         if (dataSnapshot.hasChildren()) {
             adapter.clear();
             adapter.add("UP");
@@ -30,6 +47,8 @@ public class DBValueEventListener implements ValueEventListener {
             }
         } else {
             //start video
+            DownloadVideoUrlsTask task = new DownloadVideoUrlsTask(adapter.getContext());
+            task.execute(new String[]{(String) dataSnapshot.getValue()});
         }
     }
 
