@@ -82,7 +82,7 @@ public class SubtitleProcessingTask extends AsyncTask<String, Void, TimedTextObj
     protected void onPostExecute(TimedTextObject result) {
         if (null != srt) {
             Log.d("TAG", "subtitles loaded!!");
-            EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
+//            EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
         }
         super.onPostExecute(result);
     }

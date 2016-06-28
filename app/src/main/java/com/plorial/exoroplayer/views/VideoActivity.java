@@ -7,10 +7,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
+import android.text.Layout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -42,12 +44,9 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     public static int subsCorrector = 0;
 
     private EMVideoView emVideoView;
-    private TextView firstSubtitleText;
-    private TextView secondSubtitleText;
     private FrameLayout controlsHolder;
     private long currentPos;
 
-    private boolean doubleSubsReady = false;
     private String videoSource;
     private String srt1Source;
     private String srt2Source;
@@ -55,6 +54,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     private ProgressBar pbPreparing;
     public static InterstitialAd ad;
     private int uiFlags;
+    private LinearLayout subContainer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,12 +115,9 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     }
 
     private void setUpViews() {
-        firstSubtitleText = (TextView) findViewById(R.id.firstSubtitleText);
-        secondSubtitleText = (TextView) findViewById(R.id.secondSubtitleText);
-        firstSubtitleText.setVisibility(View.INVISIBLE);
-        secondSubtitleText.setVisibility(View.INVISIBLE);
         emVideoView = (EMVideoView) findViewById(R.id.video_play_activity_video_view);
         controlsHolder = (FrameLayout) findViewById(R.id.controlsHolder);
+        subContainer = (LinearLayout) findViewById(R.id.subsContainer);
         tvTranslatedText = (TextView) findViewById(R.id.tvTranslatedText);
         pbPreparing = (ProgressBar) findViewById(R.id.pbPreparing);
         tvTranslatedText.setText(R.string.preparing_video);
@@ -154,35 +151,26 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         AppCompatImageButton settingsButton = (AppCompatImageButton) controller.getRoot().findViewById(R.id.settings_button);
         settingsButton.setOnClickListener(new SettingsClickListener(this));
         emVideoView.seekTo((int) currentPos);
-        tvTranslatedText.setText(R.string.preparing_subs);
+        tvTranslatedText.setVisibility(View.INVISIBLE);
+        pbPreparing.setVisibility(View.INVISIBLE);
+        emVideoView.start();
     }
 
-    private void prepareSubs(){
-        if (srt1Source == null && srt2Source == null){
-            doubleSubsReady = true;
-            EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
-            firstSubtitleText.setVisibility(View.GONE);
-            secondSubtitleText.setVisibility(View.GONE);
-        }else if (srt1Source == null || srt2Source == null){
-            EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
-            if(srt1Source != null){
-                SubtitlesController firstSubController = new SubtitlesController(this, emVideoView, firstSubtitleText, srt1Source, tvTranslatedText);
-                firstSubController.startSubtitles();
-            }else if(srt2Source != null){
-                SubtitlesController firstSubController = new SubtitlesController(this, emVideoView, firstSubtitleText, srt2Source, tvTranslatedText);
-                firstSubController.startSubtitles();
-            }
-            firstSubtitleText.setVisibility(View.VISIBLE);
-            secondSubtitleText.setVisibility(View.GONE);
-        }else {
-            SubtitlesController firstSubController = new SubtitlesController(this, emVideoView, firstSubtitleText, srt1Source, tvTranslatedText);
-            firstSubController.startSubtitles();
-
-            SubtitlesController secondSubController = new SubtitlesController(this, emVideoView, secondSubtitleText, srt2Source, tvTranslatedText);
-            secondSubController.startSubtitles();
-            firstSubtitleText.setVisibility(View.VISIBLE);
-            secondSubtitleText.setVisibility(View.VISIBLE);
+    private void prepareSubs() {
+        if(srt1Source != null){
+            addSub(srt1Source);
         }
+        if(srt2Source != null){
+            addSub(srt2Source);
+        }
+    }
+
+    private void addSub(String srtSource){
+        View view = this.getLayoutInflater().inflate(R.layout.subs_text_view_item, subContainer, false);
+        TextView subTextView = (TextView) view.findViewById(R.id.subTextView);
+        subContainer.addView(subTextView);
+        SubtitlesController subController = new SubtitlesController(this, emVideoView, subTextView, srtSource, tvTranslatedText);
+        subController.startSubtitles();
     }
 
     public void getPreferences() {
@@ -194,14 +182,12 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     }
 
     private void updateTextSize(float textSize) {
-        firstSubtitleText.setTextSize(TypedValue.COMPLEX_UNIT_SP,textSize);
-        secondSubtitleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+
         tvTranslatedText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
     }
 
     private void updateTextAlpha(int alpha){
-        firstSubtitleText.setBackgroundColor(Color.argb(alpha, 42, 42, 42));
-        secondSubtitleText.setBackgroundColor(Color.argb(alpha, 42, 42, 42));
+
         tvTranslatedText.setBackgroundColor(Color.argb(alpha, 42, 42, 42));
     }
 
@@ -215,15 +201,6 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     public void onVideoStatusEvent(VideoStatusEvent event){
         if(event.getMassage() == VideoStatusEvent.PAUSE && emVideoView.isPlaying()) {
             emVideoView.pause();
-        }
-        if(event.getMassage() == VideoStatusEvent.READY_TO_START && doubleSubsReady) {
-            emVideoView.start();
-            tvTranslatedText.setVisibility(View.INVISIBLE);
-            tvTranslatedText.setText("");
-            pbPreparing.setVisibility(View.INVISIBLE);
-        }
-        if (event.getMassage() == VideoStatusEvent.READY_TO_START && !doubleSubsReady) {
-            doubleSubsReady = true;
         }
     }
 
