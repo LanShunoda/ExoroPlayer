@@ -56,6 +56,5 @@ public class SubtitleProcessor implements Runnable {
         }
         subtitleText.setText(Html.fromHtml(text.content));
         subtitleText.setVisibility(View.VISIBLE);
-        Log.d("TAG", text.content);
     }
 }

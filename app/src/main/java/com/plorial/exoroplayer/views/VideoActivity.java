@@ -182,12 +182,18 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     }
 
     private void updateTextSize(float textSize) {
-
+        int subsCount = subContainer.getChildCount();
+        for (int i = 0; i < subsCount; i++){
+            ((TextView)subContainer.getChildAt(i)).setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+        }
         tvTranslatedText.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
     }
 
     private void updateTextAlpha(int alpha){
-
+        int subsCount = subContainer.getChildCount();
+        for (int i = 0; i < subsCount; i++){
+            (subContainer.getChildAt(i)).setBackgroundColor(Color.argb(alpha, 42, 42, 42));
+        }
         tvTranslatedText.setBackgroundColor(Color.argb(alpha, 42, 42, 42));
     }
 
