@@ -22,10 +22,14 @@ public class DBValueEventListener implements ValueEventListener {
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        adapter.clear();
-        adapter.add("UP");
-        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-            adapter.add(postSnapshot.getKey());
+        if (dataSnapshot.hasChildren()) {
+            adapter.clear();
+            adapter.add("UP");
+            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                adapter.add(postSnapshot.getKey());
+            }
+        } else {
+            //start video
         }
     }
 

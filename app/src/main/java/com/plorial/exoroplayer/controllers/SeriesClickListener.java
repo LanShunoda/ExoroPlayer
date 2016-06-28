@@ -21,11 +21,10 @@ public class SeriesClickListener implements AdapterView.OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-        String ref = (String) adapterView.getItemAtPosition(i);
-        if (ref.equals("UP")){
+        if (adapterView.getPositionForView(view) == 0 && !dbRef.equals(dbRef.getRoot())){
             dbRef = dbRef.getParent();
         }else {
+            String ref = (String) adapterView.getItemAtPosition(i);
             dbRef = dbRef.child(ref);
         }
         fragment.getDBFiles(dbRef);
