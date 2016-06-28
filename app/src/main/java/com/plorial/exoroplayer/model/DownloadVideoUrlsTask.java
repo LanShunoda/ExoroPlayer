@@ -17,7 +17,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,19 +24,20 @@ import java.util.List;
  */
 public class DownloadVideoUrlsTask extends AsyncTask<String,Void, String> {
 
-    private final static String storageBucket = "gs://exoro-player.appspot.com";
-
     private Context context;
     private int numberOfUrl;
+    private String subRef;
 
-    public DownloadVideoUrlsTask(Context context, int numberOfUrl) {
+    public DownloadVideoUrlsTask(Context context, int numberOfUrl, String subRef) {
         this.context = context;
         this.numberOfUrl = numberOfUrl;
+        this.subRef = subRef;
     }
 
     @Override
     protected String doInBackground(String... url) {
-        return getVideoUrls(url[0] ,context, numberOfUrl);
+        File file = downloadFromUrl(url[0] ,context);
+        return getNeededLine(file, numberOfUrl);
     }
 
     @Override
@@ -45,10 +45,11 @@ public class DownloadVideoUrlsTask extends AsyncTask<String,Void, String> {
         super.onPostExecute(s);
         Intent intent = new Intent(context,VideoActivity.class);
         intent.putExtra(VideoActivity.VIDEO_PATH, s);
+        intent.putExtra(VideoActivity.SUB_REF, subRef);
         context.startActivity(intent);
     }
 
-    private static String getVideoUrls(String url, Context context, int numberOfUrl){
+    public static File downloadFromUrl(String url, Context context){
         InputStream inputStream = null;
         OutputStream output = null;
         File file = null;
@@ -83,10 +84,14 @@ public class DownloadVideoUrlsTask extends AsyncTask<String,Void, String> {
                 e.printStackTrace();
             }
         }
+        return file;
+    }
+
+    private static String getNeededLine(File file, int number){
         try {
             java.util.List<String> paths = readAllLines(file);
             String[] strings = paths.toArray(new String[paths.size()]);
-            return strings[numberOfUrl];
+            return strings[number];
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -41,7 +41,7 @@ public class DBValueEventListener implements ValueEventListener {
                 //start video
                 String subRef = (String) dataSnapshot.getValue();
                 int n = Integer.parseInt(key.substring(5)) - 1;
-                DownloadVideoUrlsTask task = new DownloadVideoUrlsTask(adapter.getContext(), n);
+                DownloadVideoUrlsTask task = new DownloadVideoUrlsTask(adapter.getContext(), n, subRef);
                 task.execute(videoUrls);
             }
         }

@@ -25,10 +25,14 @@ import com.plorial.exoroplayer.controllers.ErrorListener;
 import com.plorial.exoroplayer.controllers.SettingsClickListener;
 import com.plorial.exoroplayer.controllers.SubtitlesController;
 import com.plorial.exoroplayer.controllers.VideoControl;
+import com.plorial.exoroplayer.model.SubsDownloader;
 import com.plorial.exoroplayer.model.events.VideoStatusEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by plorial on 6/25/16.
@@ -40,6 +44,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     public static final String VIDEO_PATH = "VIDEO_PATH";
     public static final String SRT1_PATH = "SRT1";
     public static final String SRT2_PATH = "SRT2";
+    public static final String SUB_REF = "SUB_REF";
 
     public static int subsCorrector = 0;
 
@@ -55,6 +60,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     public static InterstitialAd ad;
     private int uiFlags;
     private LinearLayout subContainer;
+    private File[] subs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,6 +132,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         srt2Source = getIntent().getExtras().getString(SRT2_PATH);
         Log.d(TAG, "video source " + videoSource);
         getPreferences();
+        downloadSubs();
         setupVideoView();
     }
 
@@ -154,6 +161,19 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         tvTranslatedText.setVisibility(View.INVISIBLE);
         pbPreparing.setVisibility(View.INVISIBLE);
         emVideoView.start();
+    }
+
+    private void downloadSubs() {
+        String subRef = getIntent().getExtras().getString(SUB_REF);
+        SubsDownloader subsDownloader = new SubsDownloader(this);
+        subsDownloader.execute(subRef);
+        try {
+            subs = subsDownloader.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     private void prepareSubs() {
