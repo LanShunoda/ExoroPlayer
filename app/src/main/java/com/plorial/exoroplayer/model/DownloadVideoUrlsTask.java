@@ -25,15 +25,19 @@ import java.util.List;
  */
 public class DownloadVideoUrlsTask extends AsyncTask<String,Void, String> {
 
-    private Context context;
+    private final static String storageBucket = "gs://exoro-player.appspot.com";
 
-    public DownloadVideoUrlsTask(Context context) {
+    private Context context;
+    private int numberOfUrl;
+
+    public DownloadVideoUrlsTask(Context context, int numberOfUrl) {
         this.context = context;
+        this.numberOfUrl = numberOfUrl;
     }
 
     @Override
     protected String doInBackground(String... url) {
-        return getVideoUrls(url[0] ,context);
+        return getVideoUrls(url[0] ,context, numberOfUrl);
     }
 
     @Override
@@ -44,7 +48,7 @@ public class DownloadVideoUrlsTask extends AsyncTask<String,Void, String> {
         context.startActivity(intent);
     }
 
-    private static String getVideoUrls(String url, Context context){
+    private static String getVideoUrls(String url, Context context, int numberOfUrl){
         InputStream inputStream = null;
         OutputStream output = null;
         File file = null;
@@ -82,7 +86,7 @@ public class DownloadVideoUrlsTask extends AsyncTask<String,Void, String> {
         try {
             java.util.List<String> paths = readAllLines(file);
             String[] strings = paths.toArray(new String[paths.size()]);
-            return strings[0];
+            return strings[numberOfUrl];
         } catch (IOException e) {
             e.printStackTrace();
         }

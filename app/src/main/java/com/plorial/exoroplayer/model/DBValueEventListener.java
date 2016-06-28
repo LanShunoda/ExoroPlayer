@@ -1,28 +1,12 @@
 package com.plorial.exoroplayer.model;
 
-import android.content.Context;
-import android.graphics.Path;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.google.firebase.storage.StorageReference;
 
 /**
  * Created by plorial on 6/28/16.
@@ -32,6 +16,7 @@ public class DBValueEventListener implements ValueEventListener {
     public static final String TAG = DBValueEventListener.class.getSimpleName();
 
     private ArrayAdapter adapter;
+    private String videoUrls;
 
     public DBValueEventListener(ArrayAdapter adapter) {
         this.adapter = adapter;
@@ -40,15 +25,25 @@ public class DBValueEventListener implements ValueEventListener {
     @Override
     public void onDataChange(final DataSnapshot dataSnapshot) {
         if (dataSnapshot.hasChildren()) {
+            if (dataSnapshot.hasChild("video_urls")){
+                videoUrls = (String) dataSnapshot.child("video_urls").getValue();
+            }
             adapter.clear();
             adapter.add("UP");
             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                 adapter.add(postSnapshot.getKey());
             }
         } else {
-            //start video
-            DownloadVideoUrlsTask task = new DownloadVideoUrlsTask(adapter.getContext());
-            task.execute(new String[]{(String) dataSnapshot.getValue()});
+            String key = dataSnapshot.getKey();
+            if(key.equals("video_urls")){
+
+            }else {
+                //start video
+                String subRef = (String) dataSnapshot.getValue();
+                int n = Integer.parseInt(key.substring(5)) - 1;
+                DownloadVideoUrlsTask task = new DownloadVideoUrlsTask(adapter.getContext(), n);
+                task.execute(videoUrls);
+            }
         }
     }
 
