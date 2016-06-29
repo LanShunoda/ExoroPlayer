@@ -23,6 +23,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.controllers.ErrorListener;
 import com.plorial.exoroplayer.controllers.SettingsClickListener;
+import com.plorial.exoroplayer.controllers.SubsChooseClickListener;
 import com.plorial.exoroplayer.controllers.SubtitlesController;
 import com.plorial.exoroplayer.controllers.VideoControl;
 import com.plorial.exoroplayer.model.SubsDownloader;
@@ -60,7 +61,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     public static InterstitialAd ad;
     private int uiFlags;
     private LinearLayout subContainer;
-    private File[] subs;
+    public File[] subs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         if(savedInstanceState != null){
             currentPos = savedInstanceState.getLong("CURRENT_POS");
         }
-        setUpAd();
+//        setUpAd();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -132,8 +133,8 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         srt2Source = getIntent().getExtras().getString(SRT2_PATH);
         Log.d(TAG, "video source " + videoSource);
         getPreferences();
-        downloadSubs();
         setupVideoView();
+        downloadSubs();
     }
 
     private void setupVideoView() {
@@ -156,11 +157,13 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
             }
         });
         AppCompatImageButton settingsButton = (AppCompatImageButton) controller.getRoot().findViewById(R.id.settings_button);
+        AppCompatImageButton subsButton = (AppCompatImageButton) controller.getRoot().findViewById(R.id.subs_button);
         settingsButton.setOnClickListener(new SettingsClickListener(this));
+        subsButton.setOnClickListener(new SubsChooseClickListener(this));
         emVideoView.seekTo((int) currentPos);
+        emVideoView.start();
         tvTranslatedText.setVisibility(View.INVISIBLE);
         pbPreparing.setVisibility(View.INVISIBLE);
-        emVideoView.start();
     }
 
     private void downloadSubs() {
@@ -185,7 +188,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         }
     }
 
-    private void addSub(String srtSource){
+    public void addSub(String srtSource){
         View view = this.getLayoutInflater().inflate(R.layout.subs_text_view_item, subContainer, false);
         TextView subTextView = (TextView) view.findViewById(R.id.subTextView);
         subContainer.addView(subTextView);
@@ -233,7 +236,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     @Override
     protected void onResume() {
         super.onResume();
-        loadAd();
+//        loadAd();
     }
 
     public void loadAd(){

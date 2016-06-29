@@ -25,8 +25,8 @@ public class DBValueEventListener implements ValueEventListener {
     @Override
     public void onDataChange(final DataSnapshot dataSnapshot) {
         if (dataSnapshot.hasChildren()) {
-            if (dataSnapshot.hasChild("video_urls")){
-                videoUrls = (String) dataSnapshot.child("video_urls").getValue();
+            if (dataSnapshot.hasChild("zzz_video_urls")){
+                videoUrls = (String) dataSnapshot.child("zzz_video_urls").getValue();
             }
             adapter.clear();
             adapter.add("UP");
@@ -35,12 +35,12 @@ public class DBValueEventListener implements ValueEventListener {
             }
         } else {
             String key = dataSnapshot.getKey();
-            if(key.equals("video_urls")){
+            if(key.equals("zzz_video_urls")){
 
             }else {
                 //start video
                 String subRef = (String) dataSnapshot.getValue();
-                int n = Integer.parseInt(key.substring(5)) - 1;
+                int n = Integer.parseInt(key.substring(8)) - 1;
                 DownloadVideoUrlsTask task = new DownloadVideoUrlsTask(adapter.getContext(), n, subRef);
                 task.execute(videoUrls);
             }
