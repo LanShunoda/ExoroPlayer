@@ -33,6 +33,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -52,6 +55,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     private EMVideoView emVideoView;
     private FrameLayout controlsHolder;
     private long currentPos;
+    private HashMap<Integer, SubtitlesController> subtitlesControllers;
 
     private String videoSource;
     private String srt1Source;
@@ -182,28 +186,51 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     }
 
     private void prepareSubs() {
+        subtitlesControllers = new HashMap<>();
         if(srt1Source != null){
-            addSub(srt1Source);
+            addSub(srt1Source, 1);
         }
         if(srt2Source != null){
-            addSub(srt2Source);
+            addSub(srt2Source, 2);
         }
     }
 
     public void updateSubs(){
-        for (int i = 0; i < checkedItems.length; i ++){
+        for (int i = 0; i < checkedItems.length; i++){
             if (checkedItems[i]){
-                addSub(subs[i].getAbsolutePath());
+                if(!subtitlesControllers.containsKey(i)) {
+                    addSub(subs[i].getAbsolutePath(), i);
+                }
+            } else {
+                if(subtitlesControllers.containsKey(i)) {
+                    removeSub(i);
+                }
             }
         }
     }
 
-    public void addSub(String srtSource){
+    private void removeSub(int pos){
+        SubtitlesController controller = subtitlesControllers.get(pos);
+        controller.stopSubtitles();
+        View removeView = subContainer.findViewWithTag(pos);
+        subContainer.removeView(removeView);
+        subtitlesControllers.remove(pos);
+    }
+
+    public void addSub(String srtSource, int pos){
         View view = this.getLayoutInflater().inflate(R.layout.subs_text_view_item, subContainer, false);
         TextView subTextView = (TextView) view.findViewById(R.id.subTextView);
+        subTextView.setTag(pos);
         subContainer.addView(subTextView);
         SubtitlesController subController = new SubtitlesController(this, emVideoView, subTextView, srtSource, tvTranslatedText);
+        subtitlesControllers.put(pos, subController);
         subController.startSubtitles();
+    }
+
+    private void stopAllSubs(){
+        for(Map.Entry<Integer, SubtitlesController> entry : subtitlesControllers.entrySet()){
+            entry.getValue().stopSubtitles();
+        }
     }
 
     public void getPreferences() {
@@ -268,6 +295,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
 
     @Override
     public void onStop() {
+        stopAllSubs();
         emVideoView.release();
         EventBus.getDefault().unregister(this);
         super.onStop();

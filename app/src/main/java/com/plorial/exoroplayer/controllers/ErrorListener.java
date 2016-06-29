@@ -1,13 +1,12 @@
 package com.plorial.exoroplayer.controllers;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.plorial.exoroplayer.R;
-import com.plorial.exoroplayer.views.FileExplorerFragment;
+import com.plorial.exoroplayer.views.NavigationDrawerActivity;
 
 /**
  * Created by plorial on 5/14/16.
@@ -23,16 +22,14 @@ public class ErrorListener implements MediaPlayer.OnErrorListener {
         startFragment = new Runnable() {
             @Override
             public void run() {
-                startFragment();
+                startActivity();
             }
         };
     }
 
-    private void startFragment() {
-        FileExplorerFragment fragment = new FileExplorerFragment();
-        FragmentTransaction transaction = context.getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.commit();
+    private void startActivity() {
+        Intent intent = new Intent(context, NavigationDrawerActivity.class);
+        context.startActivity(intent);
     }
 
     @Override

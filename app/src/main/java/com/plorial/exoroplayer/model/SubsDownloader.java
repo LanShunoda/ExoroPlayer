@@ -27,7 +27,8 @@ public class SubsDownloader extends AsyncTask<String, Void, File[]> {
     @Override
     protected File[] doInBackground(String... lists) {
         File file = DownloadVideoUrlsTask.downloadFromUrl(lists[0], context);
-        return unzipFile(file.getAbsolutePath(), context.getCacheDir() + File.separator + "subs");
+        file.deleteOnExit();
+        return unzipFile(file.getAbsolutePath(), context.getCacheDir() + File.separator + file.getName().substring(file.getName().length()-5,file.getName().length()-1));
     }
 
     private File[] unzipFile(String zipFile, String outputFolder){
@@ -39,6 +40,7 @@ public class SubsDownloader extends AsyncTask<String, Void, File[]> {
 
         try{
             File folder = new File(outputFolder);
+            folder.deleteOnExit();
             if(!folder.exists()){
                 folder.mkdir();
             }
@@ -50,8 +52,7 @@ public class SubsDownloader extends AsyncTask<String, Void, File[]> {
 
                 String fileName = ze.getName();
                 File newFile = new File(outputFolder, fileName);
-
-                Log.d(TAG,"file unzip : "+ newFile.getAbsoluteFile());
+                newFile.deleteOnExit();
 
                 new File(newFile.getParent()).mkdirs();
 

@@ -50,4 +50,8 @@ public class SubtitlesController {
         SubtitleProcessor processor = new SubtitleProcessor(subtitleDisplayHandler, videoView, subtitlesText, srt);
         subtitleDisplayHandler.post(processor);
     }
+
+    public void stopSubtitles(){
+        subtitleDisplayHandler.removeCallbacksAndMessages(null);
+    }
 }
