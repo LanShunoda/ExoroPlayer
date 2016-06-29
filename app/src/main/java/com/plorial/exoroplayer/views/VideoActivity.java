@@ -62,6 +62,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     private int uiFlags;
     private LinearLayout subContainer;
     public File[] subs;
+    public boolean[] checkedItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -172,6 +173,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         subsDownloader.execute(subRef);
         try {
             subs = subsDownloader.get();
+            checkedItems = new boolean[subs.length];
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -185,6 +187,14 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         }
         if(srt2Source != null){
             addSub(srt2Source);
+        }
+    }
+
+    public void updateSubs(){
+        for (int i = 0; i < checkedItems.length; i ++){
+            if (checkedItems[i]){
+                addSub(subs[i].getAbsolutePath());
+            }
         }
     }
 
