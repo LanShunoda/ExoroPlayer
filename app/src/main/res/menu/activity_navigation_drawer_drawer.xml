@@ -11,8 +11,12 @@
 
             android:title="Series" />
         <item
-            android:id="@+id/nav_films"
+            android:id="@+id/nav_ad"
 
-            android:title="Films" />
+            android:title="Ad" />
+        <item
+            android:id="@+id/nav_about"
+
+            android:title="About" />
     </group>
 </menu>

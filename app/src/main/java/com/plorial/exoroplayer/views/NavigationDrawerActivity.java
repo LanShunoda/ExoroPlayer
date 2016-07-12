@@ -47,9 +47,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            FileExplorerFragment fileExplorerFragment = new FileExplorerFragment();
+            SeriesFragment fragment = new SeriesFragment();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.add(R.id.fragment_container, fileExplorerFragment);
+            transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 checkPermissions();
@@ -134,12 +134,19 @@ public class NavigationDrawerActivity extends AppCompatActivity
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();
-        } else if (id == R.id.nav_films) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SeriesFragment fragment = new SeriesFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
     }
 }

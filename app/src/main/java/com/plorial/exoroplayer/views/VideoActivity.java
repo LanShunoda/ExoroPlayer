@@ -179,11 +179,11 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         subsDownloader.execute(subRef);
         try {
             subs = subsDownloader.get();
-            if(checkedItems == null) {
+//            if(checkedItems == null) {
                 checkedItems = new boolean[subs.length];
-            }else {
-                updateSubs();
-            }
+//            }else {
+//                updateSubs();
+//            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

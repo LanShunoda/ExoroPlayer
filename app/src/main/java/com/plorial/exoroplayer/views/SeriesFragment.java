@@ -3,6 +3,7 @@ package com.plorial.exoroplayer.views;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,14 +42,28 @@ public class SeriesFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.listView);
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1);
         listView.setAdapter(adapter);
+        view.findViewById(R.id.bar_preparing).setVisibility(View.INVISIBLE);
         firebaseDatabase = FirebaseDatabase.getInstance();
-        dbRef = firebaseDatabase.getReference("Series");
-        dbValueEventListener = new DBValueEventListener(adapter);
+        if(savedInstanceState != null){
+            Log.d(TAG, "db ref " + savedInstanceState.getString("DB_REF"));
+            dbRef = firebaseDatabase.getReferenceFromUrl(savedInstanceState.getString("DB_REF"));
+        }else {
+            dbRef = firebaseDatabase.getReference("Series");
+        }
+        dbValueEventListener = new DBValueEventListener(adapter,view);
         listView.setOnItemClickListener(new SeriesClickListener(dbRef, this));
         getDBFiles(dbRef);
     }
 
     public void getDBFiles(DatabaseReference reference) {
+        dbRef = reference;
+        getActivity().setTitle(reference.getKey());
         reference.addListenerForSingleValueEvent(dbValueEventListener);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("DB_REF", dbRef.getRoot().toString());
     }
 }
