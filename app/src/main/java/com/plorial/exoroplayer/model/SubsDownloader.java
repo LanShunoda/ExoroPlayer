@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -64,6 +65,7 @@ public class SubsDownloader extends AsyncTask<String, Void, File[]> {
                 }
                 ze = zis.getNextEntry();
             }
+            Log.e(TAG, Arrays.toString(folder.listFiles()));
             return folder.listFiles();
         }catch(IOException ex){
             ex.printStackTrace();

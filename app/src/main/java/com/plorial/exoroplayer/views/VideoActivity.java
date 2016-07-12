@@ -34,6 +34,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -75,6 +76,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         setUpViews();
         if(savedInstanceState != null){
             currentPos = savedInstanceState.getLong("CURRENT_POS");
+            checkedItems = savedInstanceState.getBooleanArray("CURRENT_SUBS");
         }
 //        setUpAd();
 
@@ -177,7 +179,11 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         subsDownloader.execute(subRef);
         try {
             subs = subsDownloader.get();
-            checkedItems = new boolean[subs.length];
+            if(checkedItems == null) {
+                checkedItems = new boolean[subs.length];
+            }else {
+                updateSubs();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -228,8 +234,10 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     }
 
     private void stopAllSubs(){
-        for(Map.Entry<Integer, SubtitlesController> entry : subtitlesControllers.entrySet()){
-            entry.getValue().stopSubtitles();
+        if(subtitlesControllers != null) {
+            for (Map.Entry<Integer, SubtitlesController> entry : subtitlesControllers.entrySet()) {
+                entry.getValue().stopSubtitles();
+            }
         }
     }
 
@@ -261,6 +269,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong("CURRENT_POS",emVideoView.getCurrentPosition());
+        outState.putBooleanArray("CURRENT_SUBS", checkedItems);
     }
 
     @Subscribe
