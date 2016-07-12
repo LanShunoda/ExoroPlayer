@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
@@ -29,6 +30,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FileChooseFragment.OnFileSelectedListener {
 
     public Bundle fileExplorerBundle;
+    public FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle analytics = new Bundle();
+        analytics.putString(FirebaseAnalytics.Param.ITEM_NAME,"Exoro Started");
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, analytics);
 
         if (savedInstanceState == null) {
             SeriesFragment fragment = new SeriesFragment();

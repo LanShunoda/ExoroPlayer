@@ -20,6 +20,7 @@ import com.devbrackets.android.exomedia.EMVideoView;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.controllers.ErrorListener;
 import com.plorial.exoroplayer.controllers.SettingsClickListener;
@@ -57,6 +58,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     private FrameLayout controlsHolder;
     private long currentPos;
     private HashMap<Integer, SubtitlesController> subtitlesControllers;
+    private FirebaseAnalytics firebaseAnalytics;
 
     private String videoSource;
     private String srt1Source;
@@ -139,6 +141,12 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         srt1Source = getIntent().getExtras().getString(SRT1_PATH);
         srt2Source = getIntent().getExtras().getString(SRT2_PATH);
         Log.d(TAG, "video source " + videoSource);
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle analytics = new Bundle();
+        analytics.putString(FirebaseAnalytics.Param.ITEM_NAME,"Video start playing, src: " + videoSource);
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_ITEM, analytics);
+
         getPreferences();
         setupVideoView();
         downloadSubs();

@@ -1,5 +1,6 @@
 package com.plorial.exoroplayer.controllers;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -7,9 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.views.FileChooseFragment;
 import com.plorial.exoroplayer.views.FileExplorerFragment;
+import com.plorial.exoroplayer.views.NavigationDrawerActivity;
 import com.plorial.exoroplayer.views.VideoActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,6 +54,13 @@ public class FileExplorerClickListener implements View.OnClickListener {
     }
 
     private void startPlaying() {
+        Activity activity = fragment.getActivity();
+        if(activity instanceof NavigationDrawerActivity){
+            FirebaseAnalytics analytics = ((NavigationDrawerActivity)activity).firebaseAnalytics;
+            Bundle analyticsBundle = new Bundle();
+            analyticsBundle.putString(FirebaseAnalytics.Param.ITEM_NAME,"Local file started");
+            analytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, analyticsBundle);
+        }
         Intent intent = new Intent(fragment.getActivity(),VideoActivity.class);
         intent.putExtra(VideoActivity.VIDEO_PATH, fragment.getVideoPath());
         intent.putExtra(VideoActivity.SRT1_PATH, fragment.getSub1Path());
