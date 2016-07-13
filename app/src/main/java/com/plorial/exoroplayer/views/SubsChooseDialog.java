@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
+import com.plorial.exoroplayer.R;
+
 import java.io.File;
 
 /**
@@ -25,7 +27,7 @@ public class SubsChooseDialog extends DialogFragment {
         fillArray();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Choose Subtitles");
+        builder.setTitle(R.string.choose_subtitles);
         builder.setMultiChoiceItems(fileNames,activity.checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i, boolean b) {

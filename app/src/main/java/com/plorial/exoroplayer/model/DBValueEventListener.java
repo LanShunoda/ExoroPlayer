@@ -33,9 +33,12 @@ public class DBValueEventListener implements ValueEventListener {
                 videoUrls = (String) dataSnapshot.child("zzz_video_urls").getValue();
             }
             adapter.clear();
-            adapter.add("UP");
+            adapter.add(view.getContext().getString(R.string.up));
             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                adapter.add(postSnapshot.getKey());
+                if(postSnapshot.getKey().equals("zzz_video_urls")){}
+                else {
+                    adapter.add(postSnapshot.getKey());
+                }
             }
         } else {
             String key = dataSnapshot.getKey();

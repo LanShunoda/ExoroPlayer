@@ -17,4 +17,10 @@
     <string name="settings">Настройки </string>
     <string name="subs_offset">Смещение субтитров</string>
     <string name="subs_text_size">Размер текста субтитров </string>
+    <string name="about">О программе</string>
+    <string name="choose_subtitles">Выберитн субтитры</string>
+    <string name="open">Открыть</string>
+    <string name="series">Сериалы</string>
+    <string name="subs_transparency">Прозрачность субтитров</string>
+    <string name="up">Вверх</string>
 </resources>
