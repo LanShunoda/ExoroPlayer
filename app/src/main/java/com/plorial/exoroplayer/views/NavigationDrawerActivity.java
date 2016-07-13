@@ -4,18 +4,20 @@ import android.Manifest;
 import android.app.FragmentTransaction;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
@@ -29,8 +31,11 @@ import org.greenrobot.eventbus.Subscribe;
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FileChooseFragment.OnFileSelectedListener {
 
+    private static final String TAG = NavigationDrawerActivity.class.getSimpleName();
     public Bundle fileExplorerBundle;
     public FirebaseAnalytics firebaseAnalytics;
+    private AdView adView;
+    private static InterstitialAd ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,20 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }else {
             fileExplorerBundle = savedInstanceState.getBundle(this.getClass().getSimpleName());
         }
+        setUpBottomAd();
+        setUpAd();
+    }
+
+    private void setUpBottomAd() {
+        MobileAds.initialize(this, getString(R.string.ads_app_id));
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+    }
+
+    private void setUpAd() {
+        ad = new InterstitialAd(this);
+        ad.setAdUnitId(getString(R.string.pause_banner_id));
     }
 
     private void checkPermissions() {
@@ -117,6 +136,33 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if(adView != null)
+        adView.pause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(adView != null)
+        adView.resume();
+        loadAd();
+    }
+
+    public void loadAd(){
+        AdRequest adRequest = new AdRequest.Builder().build();
+        ad.loadAd(adRequest);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(adView != null)
+        adView.destroy();
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -141,6 +187,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();
+        } else if(id == R.id.nav_ad){
+            if(ad.isLoaded()){
+                ad.show();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -2,6 +2,8 @@
     <string name="app_name" translatable="false">Exoro Player</string>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="pause_banner_id" translatable="false">ca-app-pub-5856709212349553/3306985829</string>
+    <string name="bottom_banner_id" translatable="false">ca-app-pub-5856709212349553/7529653823</string>
+    <string name="ads_app_id" translatable="false">ca-app-pub-5856709212349553~1830252629</string>
     <string name="open_files_from_storage">Open files from storage</string>
     <string name="video_path">Video path or insert url</string>
     <string name="first_sub_path">First Sub Path</string>

@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
-import android.text.Layout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -34,8 +33,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -80,7 +77,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
             currentPos = savedInstanceState.getLong("CURRENT_POS");
             checkedItems = savedInstanceState.getBooleanArray("CURRENT_SUBS");
         }
-//        setUpAd();
+        setUpAd();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             uiFlags = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -109,25 +106,6 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     private void setUpAd() {
         ad = new InterstitialAd(this);
         ad.setAdUnitId(getString(R.string.pause_banner_id));
-        ad.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                showAd();
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-                emVideoView.pause();
-            }
-
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-                emVideoView.start();
-            }
-        });
     }
 
     private void setUpViews() {
@@ -156,6 +134,14 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         emVideoView.setOnErrorListener(new ErrorListener(this));
         emVideoView.setOnPreparedListener(this);
         emVideoView.setVideoPath(videoSource);
+        emVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                if(ad.isLoaded()){
+                    ad.show();
+                }
+            }
+        });
     }
 
     @Override
@@ -183,19 +169,21 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
 
     private void downloadSubs() {
         String subRef = getIntent().getExtras().getString(SUB_REF);
-        SubsDownloader subsDownloader = new SubsDownloader(this);
-        subsDownloader.execute(subRef);
-        try {
-            subs = subsDownloader.get();
+        if(subRef != null) {
+            SubsDownloader subsDownloader = new SubsDownloader(this);
+            subsDownloader.execute(subRef);
+            try {
+                subs = subsDownloader.get();
 //            if(checkedItems == null) {
                 checkedItems = new boolean[subs.length];
 //            }else {
 //                updateSubs();
 //            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -290,18 +278,12 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     @Override
     protected void onResume() {
         super.onResume();
-//        loadAd();
+        loadAd();
     }
 
     public void loadAd(){
         AdRequest adRequest = new AdRequest.Builder().build();
         ad.loadAd(adRequest);
-    }
-
-    private void showAd() {
-        if(ad.isLoaded()){
-            ad.show();
-        }
     }
 
     @Override
