@@ -1,8 +1,6 @@
 package com.plorial.exoroplayer.views;
 
-import android.Manifest;
 import android.app.FragmentTransaction;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,9 +15,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.listener.multi.DialogOnAnyDeniedMultiplePermissionsListener;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.model.Item;
 
@@ -30,6 +25,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FileChooseFragment.OnFileSelectedListener {
 
     private static final String TAG = NavigationDrawerActivity.class.getSimpleName();
+
     public Bundle fileExplorerBundle;
     public FirebaseAnalytics firebaseAnalytics;
     private AdView adView;
@@ -61,9 +57,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                checkPermissions();
-            }
         }else {
             fileExplorerBundle = savedInstanceState.getBundle(this.getClass().getSimpleName());
         }
@@ -81,19 +74,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private void setUpAd() {
         ad = new InterstitialAd(this);
         ad.setAdUnitId(getString(R.string.pause_banner_id));
-    }
-
-    private void checkPermissions() {
-        MultiplePermissionsListener dialogMultiplePermissionsListener =
-                DialogOnAnyDeniedMultiplePermissionsListener.Builder
-                        .withContext(getApplicationContext())
-                        .withTitle(R.string.rt_permission_title)
-                        .withMessage(R.string.rt_permission_message)
-                        .withButtonText(android.R.string.ok)
-                        .withIcon(R.mipmap.ic_launcher)
-                        .build();
-        Dexter.checkPermissions(dialogMultiplePermissionsListener, Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_EXTERNAL_STORAGE);
-        Dexter.continuePendingRequestsIfPossible(dialogMultiplePermissionsListener);
     }
 
     @Override
