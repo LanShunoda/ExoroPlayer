@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.widget.Toast;
 
 import com.devbrackets.android.exomedia.listener.OnErrorListener;
+import com.google.firebase.crash.FirebaseCrash;
 import com.plorial.exoroplayer.views.NavigationDrawerActivity;
 
 /**
@@ -35,6 +36,7 @@ public class ErrorListener implements OnErrorListener {
 
     @Override
     public boolean onError() {
+        FirebaseCrash.log("Error opening video");
         Toast.makeText(context, "Error! Video file is bad! Or something else",Toast.LENGTH_LONG);
         handler.postDelayed(startFragment, 1000);
         return false;
