@@ -1,5 +1,6 @@
 package com.plorial.exoroplayer.controllers;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -11,6 +12,8 @@ import com.plorial.exoroplayer.views.SeriesFragment;
  */
 public class SeriesClickListener implements AdapterView.OnItemClickListener {
 
+    private static final String TAG = SeriesClickListener.class.getSimpleName();
+
     private DatabaseReference dbRef;
     private SeriesFragment fragment;
 
@@ -21,8 +24,10 @@ public class SeriesClickListener implements AdapterView.OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (adapterView.getPositionForView(view) == 0 && !dbRef.equals(dbRef.getRoot())){
-            dbRef = dbRef.getParent();
+        if (adapterView.getPositionForView(view) == 0){
+            if(!dbRef.equals(dbRef.getRoot())) {
+                dbRef = dbRef.getParent();
+            }
         }else {
             String ref = (String) adapterView.getItemAtPosition(i);
             dbRef = dbRef.child(ref);
