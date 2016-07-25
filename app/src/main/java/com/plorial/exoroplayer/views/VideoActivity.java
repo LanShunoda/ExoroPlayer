@@ -15,7 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.devbrackets.android.exomedia.EMVideoView;
+import com.devbrackets.android.exomedia.listener.OnCompletionListener;
+import com.devbrackets.android.exomedia.listener.OnPreparedListener;
+import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -39,7 +41,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by plorial on 6/25/16.
  */
-public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPreparedListener, SettingsDialog.OnUpdateSettingsListener{
+public class VideoActivity extends AppCompatActivity implements SettingsDialog.OnUpdateSettingsListener, OnPreparedListener {
 
     private static final String TAG = VideoActivity.class.getSimpleName();
 
@@ -133,9 +135,9 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
         emVideoView.setOnErrorListener(new ErrorListener(this));
         emVideoView.setOnPreparedListener(this);
         emVideoView.setVideoPath(videoSource);
-        emVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+        emVideoView.setOnCompletionListener(new OnCompletionListener() {
             @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
+            public void onCompletion() {
                 if(ad.isLoaded()){
                     ad.show();
                 }
@@ -144,7 +146,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnPr
     }
 
     @Override
-    public void onPrepared(MediaPlayer mp) {
+    public void onPrepared() {
         prepareSubs();
         VideoControl videoControl = new VideoControl(emVideoView);
         final VideoControllerView controller = new VideoControllerView(this);

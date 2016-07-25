@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.widget.TextView;
 
-import com.devbrackets.android.exomedia.EMVideoView;
+import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
 import com.plorial.exoroplayer.model.SubtitleProcessingTask;
 import com.plorial.exoroplayer.model.SubtitleProcessor;
 import com.sri.subtitlessupport.utils.TimedTextObject;

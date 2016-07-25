@@ -6,12 +6,13 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.devbrackets.android.exomedia.listener.OnErrorListener;
 import com.plorial.exoroplayer.views.NavigationDrawerActivity;
 
 /**
  * Created by plorial on 5/14/16.
  */
-public class ErrorListener implements MediaPlayer.OnErrorListener {
+public class ErrorListener implements OnErrorListener {
     private Activity context;
     private Handler handler;
     private Runnable startFragment;
@@ -33,7 +34,7 @@ public class ErrorListener implements MediaPlayer.OnErrorListener {
     }
 
     @Override
-    public boolean onError(MediaPlayer mp, int what, int extra) {
+    public boolean onError() {
         Toast.makeText(context, "Error! Video file is bad! Or something else",Toast.LENGTH_LONG);
         handler.postDelayed(startFragment, 1000);
         return false;

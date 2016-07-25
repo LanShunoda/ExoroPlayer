@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.devbrackets.android.exomedia.EMVideoView;
+import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
 import com.plorial.exoroplayer.views.VideoActivity;
 import com.sri.subtitlessupport.utils.Caption;
 import com.sri.subtitlessupport.utils.TimedTextObject;

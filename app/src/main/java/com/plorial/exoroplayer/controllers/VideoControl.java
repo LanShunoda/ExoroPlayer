@@ -1,7 +1,6 @@
 package com.plorial.exoroplayer.controllers;
 
-import com.devbrackets.android.exomedia.EMVideoView;
-import com.plorial.exoroplayer.views.VideoActivity;
+import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
 import com.plorial.exoroplayer.views.VideoControllerView;
 
 /**
