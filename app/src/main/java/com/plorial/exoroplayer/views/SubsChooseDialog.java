@@ -20,27 +20,34 @@ public class SubsChooseDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
         final VideoActivity activity = (VideoActivity) getActivity();
         subs = activity.subs;
-        fileNames = new String[subs.length];
-        fillArray();
+        if (subs == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.choose_subtitles);
+            builder.setMessage("No available subtitles");
+            builder.setNeutralButton(android.R.string.ok,null);
+            return builder.create();
+        } else{
+            fileNames = new String[subs.length];
+            fillArray();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.choose_subtitles);
-        builder.setMultiChoiceItems(fileNames,activity.checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-                activity.checkedItems[i] = b;
-            }
-        });
-        builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                activity.updateSubs();
-            }
-        });
-        return builder.create();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(R.string.choose_subtitles);
+            builder.setMultiChoiceItems(fileNames, activity.checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                    activity.checkedItems[i] = b;
+                }
+            });
+            builder.setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    activity.updateSubs();
+                }
+            });
+            return builder.create();
+        }
     }
 
     private void fillArray(){
