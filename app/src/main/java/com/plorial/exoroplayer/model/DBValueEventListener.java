@@ -3,6 +3,7 @@ package com.plorial.exoroplayer.model;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -19,11 +20,13 @@ public class DBValueEventListener implements ValueEventListener {
 
     private ArrayAdapter adapter;
     private View view;
+    private ListView listView;
     private String videoUrls;
 
-    public DBValueEventListener(ArrayAdapter adapter, View view) {
+    public DBValueEventListener(ArrayAdapter adapter, View view, ListView listView) {
         this.adapter = adapter;
         this.view = view;
+        this.listView = listView;
     }
 
     @Override
@@ -55,6 +58,7 @@ public class DBValueEventListener implements ValueEventListener {
                 task.execute(videoUrls);
             }
         }
+        listView.setEnabled(true);
     }
 
     @Override

@@ -50,7 +50,7 @@ public class SeriesFragment extends Fragment {
         }else {
             dbRef = firebaseDatabase.getReference("Series");
         }
-        dbValueEventListener = new DBValueEventListener(adapter,view);
+        dbValueEventListener = new DBValueEventListener(adapter,view, listView);
         listView.setOnItemClickListener(new SeriesClickListener(dbRef, this));
         getDBFiles(dbRef);
     }
@@ -58,6 +58,7 @@ public class SeriesFragment extends Fragment {
     public void getDBFiles(DatabaseReference reference) {
         dbRef = reference;
         getActivity().setTitle(reference.getKey());
+        listView.setEnabled(false);
         reference.addListenerForSingleValueEvent(dbValueEventListener);
     }
 
