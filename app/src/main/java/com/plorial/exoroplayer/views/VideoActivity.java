@@ -175,11 +175,9 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
             subsDownloader.execute(subRef);
             try {
                 subs = subsDownloader.get();
-//            if(checkedItems == null) {
+            if(subs != null) {
                 checkedItems = new boolean[subs.length];
-//            }else {
-//                updateSubs();
-//            }
+            }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
