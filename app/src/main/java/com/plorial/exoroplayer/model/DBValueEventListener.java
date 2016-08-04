@@ -44,7 +44,6 @@ public class DBValueEventListener implements ValueEventListener {
                     adapter.add(postSnapshot.getKey());
                 }
             }
-
         } else {
             String key = dataSnapshot.getKey();
             if(key.equals("UP")){
@@ -53,10 +52,8 @@ public class DBValueEventListener implements ValueEventListener {
                 //start video
                 String subRef = (String) dataSnapshot.getValue();
                 int n = Integer.parseInt(key.substring(8)) - 1;
-                dataSnapshot.getRef().getParent().child("zzz_urls").addListenerForSingleValueEvent(new VideoUrlsValueListener());
-//                DownloadVideoUrlsTask task = new DownloadVideoUrlsTask(adapter.getContext(), n, subRef);
-//                view.findViewById(R.id.bar_preparing).setVisibility(View.VISIBLE);
-//                task.execute(videoUrls);
+                dataSnapshot.getRef().getParent().child("zzz_urls").addListenerForSingleValueEvent(new VideoUrlsValueListener(adapter.getContext(), n, subRef));
+                view.findViewById(R.id.bar_preparing).setVisibility(View.VISIBLE);
             }
         }
         listView.setEnabled(true);
