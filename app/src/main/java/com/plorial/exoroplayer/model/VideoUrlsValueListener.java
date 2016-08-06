@@ -16,7 +16,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -31,14 +33,17 @@ public class VideoUrlsValueListener implements ValueEventListener {
     private static final String TAG = VideoUrlsValueListener.class.getSimpleName();
 
     private Context context;
+    private int seasonNumber;
     private int episodeNumber;
     private String subRef;
+    private Map<String, String> neededUrls;
 
-    public VideoUrlsValueListener(Context context, int episodeNumber, String subRef) {
-
+    public VideoUrlsValueListener(Context context, int seasonNumber, int episodeNumber, String subRef) {
         this.context = context;
+        this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.subRef = subRef;
+        neededUrls = new HashMap<>();
     }
 
     @Override
@@ -46,21 +51,44 @@ public class VideoUrlsValueListener implements ValueEventListener {
         Log.d(TAG, "count " + dataSnapshot.getChildrenCount());
         ExecutorService executor = Executors.newSingleThreadExecutor();
         ArrayList<Callable<File>> tasks = new ArrayList<>();
+        List<String> qualities = new ArrayList<>();
         for (DataSnapshot url : dataSnapshot.getChildren()){
-            Log.d(TAG, "URL key: " + url.getKey() + " url value: " + url.getValue());
+            qualities.add(url.getKey());
             DownloadVideoUrlsTask task = new DownloadVideoUrlsTask(context, (String) url.getValue());
             tasks.add(task);
         }
         try {
             List<Future<File>> completed = executor.invokeAll(tasks);
+            int i = 0;
             for (Future<File> done : completed){
                 List<String> lines = readAllLines(done.get());
-                Log.d(TAG, "file urls");
-                Log.d(TAG, lines.toString());
+                getNeededUrls(lines, seasonNumber, episodeNumber, qualities.get(i));
+                i++;
             }
         } catch (InterruptedException | ExecutionException | IOException e) {
             e.printStackTrace();
         }
+        for (Map.Entry entry : neededUrls.entrySet()) {
+            Log.d(TAG, entry.getKey() + ", " + entry.getValue());
+        }
+    }
+
+    private void getNeededUrls(List<String> urls, int season, int episode, String quality){
+        for (String url : urls){
+            if(url.contains(".s" + stringOfNumber(season) + "e" + stringOfNumber(episode) + ".")){
+                neededUrls.put(quality, url);
+            }
+        }
+    }
+
+    private static String stringOfNumber(int n){
+        String result = "";
+        if (n < 10){
+            result = "0" + n;
+        }else if (n > 9){
+            result = String.valueOf(n);
+        }
+        return result;
     }
 
     @Override
@@ -73,17 +101,6 @@ public class VideoUrlsValueListener implements ValueEventListener {
         intent.putExtra(VideoActivity.VIDEO_PATH, videoUrl);
         intent.putExtra(VideoActivity.SUB_REF, subRef);
         context.startActivity(intent);
-    }
-
-    private static String getNeededLine(File file, int number){
-        try {
-            java.util.List<String> paths = readAllLines(file);
-            String[] strings = paths.toArray(new String[paths.size()]);
-            return strings[number];
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public static List<String> readAllLines(File file) throws IOException {

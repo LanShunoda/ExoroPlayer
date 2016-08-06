@@ -24,7 +24,6 @@ public class DownloadVideoUrlsTask implements Callable<File> {
         this.context = context;
     }
 
-
     @Override
     public File call() throws Exception {
         return downloadFromUrl(url, context);
@@ -37,7 +36,7 @@ public class DownloadVideoUrlsTask implements Callable<File> {
         try {
             File outputDir = context.getCacheDir();
 
-            file = File.createTempFile("video_urls",".txt", outputDir);
+            file = File.createTempFile("video_urls_" + System.nanoTime(),".txt", outputDir);
             file.deleteOnExit();
 
             URL uri = new URL(url);

@@ -23,6 +23,7 @@ public class DBValueEventListener implements ValueEventListener {
     private View view;
     private ListView listView;
     private String videoUrls;
+    private int seasonNumber;
 
     public DBValueEventListener(ArrayAdapter adapter, View view, ListView listView) {
         this.adapter = adapter;
@@ -36,6 +37,11 @@ public class DBValueEventListener implements ValueEventListener {
             if (dataSnapshot.hasChild("zzz_video_urls")) {
                 videoUrls = (String) dataSnapshot.child("zzz_video_urls").getValue();
             }
+            if(!dataSnapshot.getRef().equals(dataSnapshot.getRef().getRoot())) {
+                if (dataSnapshot.getKey().contains("Season")) {
+                    seasonNumber = Integer.parseInt(dataSnapshot.getKey().substring(7));
+                }
+            }
             adapter.clear();
             adapter.add(view.getContext().getString(R.string.up));
             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -46,18 +52,13 @@ public class DBValueEventListener implements ValueEventListener {
             }
         } else {
             String key = dataSnapshot.getKey();
-            if(key.equals("UP")){
-                Toast.makeText(adapter.getContext(),"Root directory", Toast.LENGTH_SHORT).show();
-            } else {
-                //start video
-                String subRef = (String) dataSnapshot.getValue();
-                int n = Integer.parseInt(key.substring(8)) - 1;
-                dataSnapshot.getRef().getParent().child("zzz_urls").addListenerForSingleValueEvent(new VideoUrlsValueListener(adapter.getContext(), n, subRef));
-                view.findViewById(R.id.bar_preparing).setVisibility(View.VISIBLE);
-            }
+//            view.findViewById(R.id.bar_preparing).setVisibility(View.VISIBLE);
+            String subRef = (String) dataSnapshot.getValue();
+            int n = Integer.parseInt(key.substring(8));
+            dataSnapshot.getRef().getParent().child("zzz_urls").addListenerForSingleValueEvent(new VideoUrlsValueListener(adapter.getContext(), seasonNumber, n, subRef));
         }
         listView.setEnabled(true);
-    }
+   }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
