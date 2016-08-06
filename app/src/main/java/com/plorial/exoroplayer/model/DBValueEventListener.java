@@ -1,5 +1,6 @@
 package com.plorial.exoroplayer.model;
 
+import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,14 +22,16 @@ public class DBValueEventListener implements ValueEventListener {
 
     private ArrayAdapter adapter;
     private View view;
+    private Activity activity;
     private ListView listView;
     private String videoUrls;
     private int seasonNumber;
 
-    public DBValueEventListener(ArrayAdapter adapter, View view, ListView listView) {
+    public DBValueEventListener(ArrayAdapter adapter, View view, Activity activity) {
         this.adapter = adapter;
         this.view = view;
-        this.listView = listView;
+        this.activity = activity;
+        this.listView = (ListView) view.findViewById(R.id.listView);
     }
 
     @Override
@@ -55,7 +58,7 @@ public class DBValueEventListener implements ValueEventListener {
 //            view.findViewById(R.id.bar_preparing).setVisibility(View.VISIBLE);
             String subRef = (String) dataSnapshot.getValue();
             int n = Integer.parseInt(key.substring(8));
-            dataSnapshot.getRef().getParent().child("zzz_urls").addListenerForSingleValueEvent(new VideoUrlsValueListener(adapter.getContext(), seasonNumber, n, subRef));
+            dataSnapshot.getRef().getParent().child("zzz_urls").addListenerForSingleValueEvent(new VideoUrlsValueListener(activity, seasonNumber, n, subRef));
         }
         listView.setEnabled(true);
    }
