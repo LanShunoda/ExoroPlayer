@@ -15,6 +15,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.controllers.SeriesClickListener;
 import com.plorial.exoroplayer.model.DBValueEventListener;
+import com.plorial.exoroplayer.model.events.CancelQualitySelectingEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * Created by plorial on 6/27/16.
@@ -66,5 +70,23 @@ public class SeriesFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("DB_REF", dbRef.getRoot().toString());
+    }
+
+    @Subscribe
+    public void onCancelQualitySelectingEvent(CancelQualitySelectingEvent event){
+        listView.performItemClick(listView.getChildAt(0),
+                0, listView.getAdapter().getItemId(0));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
     }
 }

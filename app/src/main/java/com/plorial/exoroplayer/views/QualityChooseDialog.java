@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
 import com.plorial.exoroplayer.R;
+import com.plorial.exoroplayer.model.events.CancelQualitySelectingEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.TreeMap;
 
@@ -35,7 +38,7 @@ public class QualityChooseDialog extends DialogFragment {
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                //// TODO: 8/7/16 need to go to upper dir
+                EventBus.getDefault().post(new CancelQualitySelectingEvent());
             }
         });
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -60,5 +63,11 @@ public class QualityChooseDialog extends DialogFragment {
 
     public void setSubRef(String subRef) {
         this.subRef = subRef;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        EventBus.getDefault().post(new CancelQualitySelectingEvent());
     }
 }
