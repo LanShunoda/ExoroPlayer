@@ -22,4 +22,6 @@
     <string name="series">Серіали</string>
     <string name="subs_transparency">Прозорість субтитрів</string>
     <string name="up">Вверх</string>
+    <string name="download">Завантажити</string>
+    <string name="video_quality_choose">Виберіть якість відео</string>
 </resources>

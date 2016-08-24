@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
@@ -74,6 +75,13 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private void setUpAd() {
         ad = new InterstitialAd(this);
         ad.setAdUnitId(getString(R.string.pause_banner_id));
+        ad.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                ad.show();
+            }
+        });
     }
 
     @Override
@@ -152,28 +160,31 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_open) {
-            FileExplorerFragment fileExplorerFragment = new FileExplorerFragment();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, fileExplorerFragment);
-            transaction.commit();
-        } else if (id == R.id.nav_series) {
-            SeriesFragment fragment = new SeriesFragment();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, fragment);
-            transaction.commit();
-        } else if(id == R.id.nav_ad){
-            if(ad.isLoaded()){
-                ad.show();
+        switch (item.getItemId()) {
+            case R.id.nav_open: {
+                FileExplorerFragment fileExplorerFragment = new FileExplorerFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, fileExplorerFragment);
+                transaction.commit();
+                break;
             }
-        } else if(id == R.id.nav_about){
-            AboutFragment fragment = new AboutFragment();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, fragment);
-            transaction.commit();
+            case  R.id.nav_series: {
+                SeriesFragment fragment = new SeriesFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, fragment);
+                transaction.commit();
+                break;
+            }
+            case  R.id.nav_ad:
+                loadAd();
+                break;
+            case R.id.nav_about: {
+                AboutFragment fragment = new AboutFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, fragment);
+                transaction.commit();
+                break;
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

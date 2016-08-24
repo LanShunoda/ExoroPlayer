@@ -2,9 +2,13 @@ package com.plorial.exoroplayer.views;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 
 import com.plorial.exoroplayer.R;
@@ -47,6 +51,12 @@ public class QualityChooseDialog extends DialogFragment {
                 startVideoActivity((String) urls.values().toArray()[checked]);
             }
         });
+        builder.setNeutralButton(getActivity().getString(R.string.download), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                addDownload((String) urls.values().toArray()[checked]);
+            }
+        });
         return builder.create();
     }
 
@@ -69,5 +79,13 @@ public class QualityChooseDialog extends DialogFragment {
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
         EventBus.getDefault().post(new CancelQualitySelectingEvent());
+    }
+
+    private void addDownload(String url){
+        DownloadManager downloadManager = (DownloadManager) getActivity()
+                .getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request downloadReq = new DownloadManager.Request(
+                Uri.parse(url));
+        downloadManager.enqueue(downloadReq);
     }
 }

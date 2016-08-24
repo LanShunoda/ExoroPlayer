@@ -34,7 +34,7 @@ public class SubtitleProcessor implements Runnable {
     public void run() {
         if (emVideoView != null && emVideoView.isPlaying()) {
 
-            long currentPos = emVideoView.getCurrentPosition() + VideoActivity.subsCorrector;
+            long currentPos = emVideoView.getCurrentPosition() + VideoActivity.subsCorrector.get();
             Collection<Caption> subtitles = srt.captions.values();
             for (Caption caption : subtitles) {
                 if (currentPos >= caption.start.mseconds

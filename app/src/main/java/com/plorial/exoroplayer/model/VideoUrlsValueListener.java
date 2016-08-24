@@ -73,7 +73,7 @@ public class VideoUrlsValueListener implements ValueEventListener {
 
     private void getNeededUrls(List<String> urls, int season, int episode, String quality){
         for (String url : urls){
-            if(url.contains(".s" + stringOfNumber(season) + "e" + stringOfNumber(episode) + ".")){
+            if(url.toLowerCase().contains(".s" + stringOfNumber(season) + "e" + stringOfNumber(episode) + ".")){
                 neededUrls.put(quality, url);
             }
         }

@@ -30,4 +30,5 @@
     <string name="subs_transparency">Subs background transparency</string>
     <string name="choose_subtitles">Choose Subtitles</string>
     <string name="video_quality_choose">Choose video quality</string>
+    <string name="download">Download</string>
 </resources>

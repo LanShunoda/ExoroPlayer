@@ -37,6 +37,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by plorial on 6/25/16.
@@ -50,7 +51,7 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     public static final String SRT2_PATH = "SRT2";
     public static final String SUB_REF = "SUB_REF";
 
-    public static int subsCorrector = 0;
+    public static AtomicInteger subsCorrector = new AtomicInteger(0);
 
     private EMVideoView emVideoView;
     private FrameLayout controlsHolder;
