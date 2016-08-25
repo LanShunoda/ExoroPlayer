@@ -55,7 +55,7 @@ public class DBValueEventListener implements ValueEventListener {
             }
         } else {
             String key = dataSnapshot.getKey();
-//            view.findViewById(R.id.bar_preparing).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.bar_preparing).setVisibility(View.VISIBLE);
             String subRef = (String) dataSnapshot.getValue();
             int n = Integer.parseInt(key.substring(8));
             dataSnapshot.getRef().getParent().child("zzz_urls").addListenerForSingleValueEvent(new VideoUrlsValueListener(activity, seasonNumber, n, subRef));

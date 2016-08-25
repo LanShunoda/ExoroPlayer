@@ -24,4 +24,5 @@
     <string name="up">Вверх</string>
     <string name="download">Завантажити</string>
     <string name="video_quality_choose">Виберіть якість відео</string>
+    <string name="click_up">клікай вверх поки в тулбарі не покажеться сезон</string>
 </resources>

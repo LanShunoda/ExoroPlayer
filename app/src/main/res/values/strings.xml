@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Exoro Player</string>
+    <string name="app_name" translatable="false">Exoro</string>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="pause_banner_id" translatable="false">ca-app-pub-5856709212349553/3306985829</string>
     <string name="bottom_banner_id" translatable="false">ca-app-pub-5856709212349553/7529653823</string>
@@ -31,4 +31,5 @@
     <string name="choose_subtitles">Choose Subtitles</string>
     <string name="video_quality_choose">Choose video quality</string>
     <string name="download">Download</string>
+    <string name="click_up">Click UP while action bar won\'t show season</string>
 </resources>

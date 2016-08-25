@@ -1,11 +1,13 @@
 package com.plorial.exoroplayer.model;
 
 import android.app.Activity;
+import android.widget.ListView;
 
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.views.QualityChooseDialog;
 
 import java.io.BufferedReader;
@@ -45,6 +47,9 @@ public class VideoUrlsValueListener implements ValueEventListener {
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
+        ListView listView = (ListView) activity.findViewById(R.id.listView);
+        if(listView != null)
+        listView.setEnabled(false);
         ExecutorService executor = Executors.newSingleThreadExecutor();
         ArrayList<Callable<File>> tasks = new ArrayList<>();
         List<String> qualities = new ArrayList<>();
@@ -68,12 +73,15 @@ public class VideoUrlsValueListener implements ValueEventListener {
         QualityChooseDialog dialog = new QualityChooseDialog();
         dialog.setUrls(neededUrls);
         dialog.setSubRef(subRef);
+        if(listView != null)
+        listView.setEnabled(true);
         dialog.show(activity.getFragmentManager(),"QUALITY");
     }
 
     private void getNeededUrls(List<String> urls, int season, int episode, String quality){
         for (String url : urls){
-            if(url.toLowerCase().contains(".s" + stringOfNumber(season) + "e" + stringOfNumber(episode) + ".")){
+            String u = url.toLowerCase().replace("+", ".").replace("_", ".");
+            if(u.contains(".s" + stringOfNumber(season) + "e" + stringOfNumber(episode) + ".")){
                 neededUrls.put(quality, url);
             }
         }
