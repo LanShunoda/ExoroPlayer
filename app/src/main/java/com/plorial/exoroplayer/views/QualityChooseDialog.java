@@ -35,6 +35,7 @@ public class QualityChooseDialog extends DialogFragment {
     private TreeMap<String, String> urls;
     private String subRef;
     private int checked;
+    private static boolean startingActivity;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class QualityChooseDialog extends DialogFragment {
                 dismiss();
             }
         });
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Object[] url = urls.values().toArray();
@@ -81,6 +82,7 @@ public class QualityChooseDialog extends DialogFragment {
     }
 
     private void startVideoActivity(String videoUrl){
+        startingActivity = true;
         Intent intent = new Intent(getActivity(),VideoActivity.class);
         intent.putExtra(VideoActivity.VIDEO_PATH, videoUrl);
         intent.putExtra(VideoActivity.SUB_REF, subRef);
@@ -98,13 +100,22 @@ public class QualityChooseDialog extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+        if(!startingActivity){
+            performUpClick();
+        } else {
+            startingActivity = false;
+        }
+    }
+
+    private void performUpClick(){
         Activity activity = getActivity();
         ListView lv = null;
         if(activity != null)
-        lv = (ListView) activity.findViewById(R.id.listView);
+            lv = (ListView) activity.findViewById(R.id.listView);
         if(lv != null){
             lv.performItemClick(lv.getChildAt(0),
                     0, lv.getAdapter().getItemId(0));
+            Log.d(TAG,"dismiss click");
         }else {
             EventBus.getDefault().post(new CancelQualitySelectingEvent());
         }
