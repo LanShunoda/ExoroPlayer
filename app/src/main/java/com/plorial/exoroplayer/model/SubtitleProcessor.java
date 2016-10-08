@@ -18,6 +18,8 @@ import java.util.Collection;
  */
 public class SubtitleProcessor implements Runnable {
 
+    private static final String TAG = SubtitleProcessor.class.getSimpleName();
+
     private Handler subtitleDisplayHandler;
     private EMVideoView emVideoView;
     private TextView subtitleText;
@@ -33,8 +35,8 @@ public class SubtitleProcessor implements Runnable {
     @Override
     public void run() {
         if (emVideoView != null && emVideoView.isPlaying()) {
-
-            long currentPos = emVideoView.getCurrentPosition() + VideoActivity.subsCorrector.get();
+//            Log.d(TAG, "video pos " + emVideoView.getCurrentPosition() + " corrector " + VideoActivity.subsCorrector);
+            long currentPos = emVideoView.getCurrentPosition() + VideoActivity.subsCorrector;
             Collection<Caption> subtitles = srt.captions.values();
             for (Caption caption : subtitles) {
                 if (currentPos >= caption.start.mseconds

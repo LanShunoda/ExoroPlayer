@@ -51,7 +51,7 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     public static final String SRT2_PATH = "SRT2";
     public static final String SUB_REF = "SUB_REF";
 
-    public static AtomicInteger subsCorrector = new AtomicInteger(0);
+    public static int subsCorrector = 0;
 
     private EMVideoView emVideoView;
     private FrameLayout controlsHolder;

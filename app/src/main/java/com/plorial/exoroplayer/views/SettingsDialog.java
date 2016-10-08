@@ -41,7 +41,7 @@ public class SettingsDialog extends DialogFragment {
         final int maxValue = 50;
         pickerTime.setMaxValue(maxValue - minValue);
         pickerTime.setMinValue(0);
-        pickerTime.setValue(VideoActivity.subsCorrector.get() - minValue);
+        pickerTime.setValue(VideoActivity.subsCorrector/1000 - minValue);
         pickerTime.setFormatter(new NumberPicker.Formatter() {
             @Override
             public String format(int index) {
@@ -59,7 +59,7 @@ public class SettingsDialog extends DialogFragment {
                         edit.putInt("TEXT_ALPHA", pickerAlpha.getValue());
                         edit.putFloat("TEXT_SIZE", pickerSize.getValue());
                         edit.commit();
-                        VideoActivity.subsCorrector.set(pickerTime.getValue() + minValue);
+                        VideoActivity.subsCorrector = (pickerTime.getValue() + minValue) * 1000;
                         EventBus.getDefault().post(new VideoStatusEvent(VideoStatusEvent.READY_TO_START));
                         Activity activity = getActivity();
                         if (activity instanceof OnUpdateSettingsListener){

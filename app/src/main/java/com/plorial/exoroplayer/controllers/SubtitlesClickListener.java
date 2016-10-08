@@ -1,5 +1,6 @@
 package com.plorial.exoroplayer.controllers;
 
+import android.os.Bundle;
 import android.text.Spannable;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.model.events.VideoStatusEvent;
 import com.plorial.exoroplayer.model.TranslateTask;
@@ -66,6 +68,10 @@ public class SubtitlesClickListener implements View.OnClickListener {
             @Override
             public void onClick(View widget) {
                 Log.d("tapped on:", mWord);
+                FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(tvTranslatedText.getContext());
+                Bundle analytics = new Bundle();
+                analytics.putString(FirebaseAnalytics.Param.ITEM_NAME, mWord);
+                firebaseAnalytics.logEvent(FirebaseAnalytics.Event.VIEW_SEARCH_RESULTS, analytics);
                 TranslateTask translateTask = new TranslateTask();
                 translateTask.execute(mWord);
                 String translatedWord = "";

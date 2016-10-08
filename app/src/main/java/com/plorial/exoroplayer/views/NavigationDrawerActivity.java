@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.gms.ads.AdListener;
@@ -63,6 +64,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         }
         setUpBottomAd();
         setUpAd();
+        loadAd();
+        Log.d(TAG, "navdrawer activity on create");
     }
 
     private void setUpBottomAd() {
@@ -133,7 +136,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         super.onResume();
         if(adView != null)
         adView.resume();
-        loadAd();
     }
 
     public void loadAd(){
