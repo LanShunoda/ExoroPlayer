@@ -33,8 +33,6 @@ public class SubtitlesController {
     }
 
     public void startSubtitles(){
-        subtitleDisplayHandler = new Handler();
-
         subtitlesText.setOnClickListener(new SubtitlesClickListener(tvTranslatedText));
 
         SubtitleProcessingTask subsFetchTask = new SubtitleProcessingTask(context);
@@ -42,13 +40,12 @@ public class SubtitlesController {
         TimedTextObject srt = null;
         try {
             srt = subsFetchTask.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+            subtitleDisplayHandler = new Handler();
+            SubtitleProcessor processor = new SubtitleProcessor(subtitleDisplayHandler, videoView, subtitlesText, srt);
+            subtitleDisplayHandler.post(processor);
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        SubtitleProcessor processor = new SubtitleProcessor(subtitleDisplayHandler, videoView, subtitlesText, srt);
-        subtitleDisplayHandler.post(processor);
     }
 
     public void stopSubtitles(){

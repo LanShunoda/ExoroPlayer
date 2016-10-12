@@ -2,8 +2,8 @@
 <TextView android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/subTextView"
-    android:background="#b9424242"
+    android:background="#7d000000"
     android:textAlignment="center"
     android:textAppearance="?android:attr/textAppearanceLarge"
-    android:textColor="#ffffff"
+    android:textColor="#e9ba5d"
     xmlns:android="http://schemas.android.com/apk/res/android" />

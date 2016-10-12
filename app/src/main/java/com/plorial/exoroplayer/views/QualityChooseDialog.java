@@ -74,7 +74,12 @@ public class QualityChooseDialog extends DialogFragment {
         builder.setNeutralButton(getActivity().getString(R.string.download), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                addDownload((String) urls.values().toArray()[checked]);
+                Object[] url = urls.values().toArray();
+                if(url != null && url.length != 0) {
+                    addDownload((String) url[checked]);
+                } else {
+                    Toast.makeText(getActivity(), "Can't download", Toast.LENGTH_LONG).show();
+                }
             }
         });
         getActivity().findViewById(R.id.bar_preparing).setVisibility(View.INVISIBLE);

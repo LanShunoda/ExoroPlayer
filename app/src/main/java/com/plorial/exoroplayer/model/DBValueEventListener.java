@@ -55,10 +55,14 @@ public class DBValueEventListener implements ValueEventListener {
             }
         } else {
             String key = dataSnapshot.getKey();
-            view.findViewById(R.id.bar_preparing).setVisibility(View.VISIBLE);
             String subRef = (String) dataSnapshot.getValue();
-            int n = Integer.parseInt(key.substring(8));
-            dataSnapshot.getRef().getParent().child("zzz_urls").addListenerForSingleValueEvent(new VideoUrlsValueListener(activity, seasonNumber, n, subRef));
+            if(key.contains("Episode")) {
+                view.findViewById(R.id.bar_preparing).setVisibility(View.VISIBLE);
+                int n = Integer.parseInt(key.substring(8));
+                dataSnapshot.getRef().getParent().child("zzz_urls").addListenerForSingleValueEvent(new VideoUrlsValueListener(activity, seasonNumber, n, subRef));
+            } else {
+                Toast.makeText(view.getContext(), "Something wrong", Toast.LENGTH_LONG).show();
+            }
         }
         listView.setEnabled(true);
    }

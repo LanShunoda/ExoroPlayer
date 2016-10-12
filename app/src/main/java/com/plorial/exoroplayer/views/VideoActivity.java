@@ -240,7 +240,7 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     public void getPreferences() {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         float textSize = preferences.getFloat("TEXT_SIZE", 20);
-        int alpha = preferences.getInt("TEXT_ALPHA", 185);
+        int alpha = preferences.getInt("TEXT_ALPHA", 125);
         updateTextSize(textSize);
         updateTextAlpha(alpha);
     }
@@ -256,9 +256,9 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     private void updateTextAlpha(int alpha){
         int subsCount = subContainer.getChildCount();
         for (int i = 0; i < subsCount; i++){
-            (subContainer.getChildAt(i)).setBackgroundColor(Color.argb(alpha, 42, 42, 42));
+            (subContainer.getChildAt(i)).setBackgroundColor(Color.argb(alpha, 00, 00, 00));
         }
-        tvTranslatedText.setBackgroundColor(Color.argb(alpha, 42, 42, 42));
+        tvTranslatedText.setBackgroundColor(Color.argb(alpha, 00, 00, 00));
     }
 
     @Override

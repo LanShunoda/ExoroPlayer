@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/tvTranslatedText"
         android:layout_gravity="center_horizontal"
-        android:textColor="#ffffff"
-        android:background="#b9424242"
+        android:textColor="#e9ba5d"
+        android:background="#7d000000"
         android:padding="10dp"
         android:layout_above="@+id/subsContainer"
         android:layout_centerHorizontal="true" />
