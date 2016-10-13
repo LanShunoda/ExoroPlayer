@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1074504907177",
+    "firebase_url": "https://exoro-3a67d.firebaseio.com",
+    "project_id": "exoro-3a67d",
+    "storage_bucket": "exoro-3a67d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074504907177:android:b3fa22c2927a2963",
+        "android_client_info": {
+          "package_name": "com.plorial.exoro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1074504907177-ud2t5u34rae2jej99hpqo8972eis952h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ9M32M4HIKAzdGTXABHZJn2ieP9956qA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
