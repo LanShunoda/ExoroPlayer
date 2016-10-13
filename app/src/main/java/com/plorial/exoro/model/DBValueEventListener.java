@@ -1,6 +1,7 @@
 package com.plorial.exoro.model;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.plorial.exoro.R;
+import com.plorial.exoro.views.VideoActivity;
 
 /**
  * Created by plorial on 6/28/16.
@@ -24,8 +26,8 @@ public class DBValueEventListener implements ValueEventListener {
     private View view;
     private Activity activity;
     private ListView listView;
-    private String videoUrls;
-    private int seasonNumber;
+    private String videoUrl;
+    private String srt;
 
     public DBValueEventListener(ArrayAdapter adapter, View view, Activity activity) {
         this.adapter = adapter;
@@ -37,35 +39,31 @@ public class DBValueEventListener implements ValueEventListener {
     @Override
     public void onDataChange(final DataSnapshot dataSnapshot) {
         if (dataSnapshot.hasChildren()) {
-            if (dataSnapshot.hasChild("zzz_video_urls")) {
-                videoUrls = (String) dataSnapshot.child("zzz_video_urls").getValue();
-            }
-            if(!dataSnapshot.getRef().equals(dataSnapshot.getRef().getRoot())) {
-                if (dataSnapshot.getKey().contains("Season")) {
-                    seasonNumber = Integer.parseInt(dataSnapshot.getKey().substring(7));
+            if (dataSnapshot.hasChild("id")) {
+                videoUrl = (String) dataSnapshot.child("id").getValue();
+                if(dataSnapshot.hasChild("srt")){
+                    srt = (String) dataSnapshot.child("srt").getValue();
                 }
+                startVideoActivity(videoUrl,srt);
             }
             adapter.clear();
             adapter.add(view.getContext().getString(R.string.up));
             for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                if (postSnapshot.getKey().equals("zzz_video_urls") || postSnapshot.getKey().equals("zzz_urls")) {
+                if (postSnapshot.getKey().equals("id") || postSnapshot.getKey().equals("srt")) {
                 } else {
                     adapter.add(postSnapshot.getKey());
                 }
             }
-        } else {
-            String key = dataSnapshot.getKey();
-            String subRef = (String) dataSnapshot.getValue();
-            if(key.contains("Episode")) {
-                view.findViewById(R.id.bar_preparing).setVisibility(View.VISIBLE);
-                int n = Integer.parseInt(key.substring(8));
-                dataSnapshot.getRef().getParent().child("zzz_urls").addListenerForSingleValueEvent(new VideoUrlsValueListener(activity, seasonNumber, n, subRef));
-            } else {
-                Toast.makeText(view.getContext(), "Something wrong", Toast.LENGTH_LONG).show();
-            }
         }
         listView.setEnabled(true);
    }
+
+    private void startVideoActivity(String videoUrl, String subRef){
+        Intent intent = new Intent(activity,VideoActivity.class);
+        intent.putExtra(VideoActivity.VIDEO_PATH, videoUrl);
+        intent.putExtra(VideoActivity.SUB_REF, subRef);
+        activity.startActivity(intent);
+    }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
