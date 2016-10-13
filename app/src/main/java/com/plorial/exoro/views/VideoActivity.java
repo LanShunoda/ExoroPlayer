@@ -145,7 +145,6 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
                 e.printStackTrace();
             }
         }
-        Log.d(TAG, videoSource);
         emVideoView.setVideoPath(videoSource);
         emVideoView.setOnCompletionListener(new OnCompletionListener() {
             @Override
