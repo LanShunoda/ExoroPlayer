@@ -16,9 +16,9 @@ import com.plorial.exoroplayer.R;
 /**
  * Created by plorial on 6/28/16.
  */
-public class DBValueEventListener implements ValueEventListener {
+public class DBValueEventListenerForFS implements ValueEventListener {
 
-    public static final String TAG = DBValueEventListener.class.getSimpleName();
+    public static final String TAG = DBValueEventListenerForFS.class.getSimpleName();
 
     private ArrayAdapter adapter;
     private View view;
@@ -27,7 +27,7 @@ public class DBValueEventListener implements ValueEventListener {
     private String videoUrls;
     private int seasonNumber;
 
-    public DBValueEventListener(ArrayAdapter adapter, View view, Activity activity) {
+    public DBValueEventListenerForFS(ArrayAdapter adapter, View view, Activity activity) {
         this.adapter = adapter;
         this.view = view;
         this.activity = activity;

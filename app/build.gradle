@@ -8,8 +8,8 @@ android {
         applicationId "com.plorial.exoroplayer"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 10
-        versionName "2.2.3"
+        versionCode 11
+        versionName "2.3"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -33,5 +33,6 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:9.6.1'
     compile 'com.google.firebase:firebase-core:9.6.1'
     compile 'pub.devrel:easypermissions:0.1.9'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
 }
 apply plugin: 'com.google.gms.google-services'

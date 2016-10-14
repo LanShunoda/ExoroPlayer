@@ -24,7 +24,7 @@
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="open">Open</string>
-    <string name="series">Series</string>
+    <string name="series_ex">Series EX</string>
     <string name="about">About</string>
     <string name="up">UP</string>
     <string name="subs_transparency">Subs background transparency</string>
@@ -32,4 +32,6 @@
     <string name="video_quality_choose">Choose video quality</string>
     <string name="download">Download</string>
     <string name="click_up">Click UP while action bar won\'t show season</string>
+    <string name="series_fs">Series FS</string>
+    <string name="availability">Series FS are available only for Ukraine</string>
 </resources>

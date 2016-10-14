@@ -12,9 +12,11 @@ import android.widget.ListView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.controllers.SeriesClickListener;
-import com.plorial.exoroplayer.model.DBValueEventListener;
+import com.plorial.exoroplayer.model.DBValueEventListenerForEx;
+import com.plorial.exoroplayer.model.DBValueEventListenerForFS;
 import com.plorial.exoroplayer.model.events.CancelQualitySelectingEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,11 +29,15 @@ public class SeriesFragment extends Fragment {
 
     private static final String TAG = SeriesFragment.class.getSimpleName();
 
+    public static final String DB_SOURCE = "DB_SOURCE";
+    public static final String EX = "EX";
+    public static final String FS = "FS";
+
     private ListView listView;
     private ArrayAdapter<String> adapter;
     private DatabaseReference dbRef;
     private FirebaseDatabase firebaseDatabase;
-    private DBValueEventListener dbValueEventListener;
+    private ValueEventListener dbValueEventListener;
 
     @Nullable
     @Override
@@ -48,13 +54,17 @@ public class SeriesFragment extends Fragment {
         listView.setAdapter(adapter);
         view.findViewById(R.id.bar_preparing).setVisibility(View.INVISIBLE);
         firebaseDatabase = FirebaseDatabase.getInstance();
+        Bundle args = getArguments();
         if(savedInstanceState != null){
-            Log.d(TAG, "db ref " + savedInstanceState.getString("DB_REF"));
-            dbRef = firebaseDatabase.getReferenceFromUrl(savedInstanceState.getString("DB_REF"));
-        }else {
-            dbRef = firebaseDatabase.getReference("Series");
+            args = savedInstanceState;
         }
-        dbValueEventListener = new DBValueEventListener(adapter,view, getActivity());
+        if(args != null && args.getString(DB_SOURCE).equals(EX)){
+            dbRef = firebaseDatabase.getReference("Series EX");
+            dbValueEventListener = new DBValueEventListenerForEx(adapter,view, getActivity());
+        }else if(args != null && args.getString(DB_SOURCE).equals(FS)){
+            dbRef = firebaseDatabase.getReference("Series FS");
+            dbValueEventListener = new DBValueEventListenerForFS(adapter,view, getActivity());
+        }
         listView.setOnItemClickListener(new SeriesClickListener(dbRef, this));
         getDBFiles(dbRef);
     }
@@ -69,7 +79,9 @@ public class SeriesFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("DB_REF", dbRef.getRoot().toString());
+        if(getArguments() != null){
+            outState.putString(DB_SOURCE, getArguments().getString(DB_SOURCE));
+        }
     }
 
     @Subscribe

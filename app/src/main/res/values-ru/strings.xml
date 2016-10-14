@@ -19,10 +19,12 @@
     <string name="about">О программе</string>
     <string name="choose_subtitles">Выберитн субтитры</string>
     <string name="open">Открыть</string>
-    <string name="series">Сериалы</string>
+    <string name="series_ex">\"Сериалы EX\"</string>
     <string name="subs_transparency">Прозрачность субтитров</string>
     <string name="up">Вверх</string>
     <string name="download">Скачать</string>
     <string name="video_quality_choose">Выберете качество видео</string>
     <string name="click_up">Кликай вверх пока в тулбаре не покажется сезон</string>
+    <string name="series_fs">Сериалы FS</string>
+    <string name="availability">Сериалы FS доступны только на територии Украины</string>
 </resources>

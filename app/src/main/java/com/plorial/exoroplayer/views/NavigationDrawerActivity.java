@@ -56,6 +56,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             SeriesFragment fragment = new SeriesFragment();
+            Bundle args = new Bundle();
+            args.putString(SeriesFragment.DB_SOURCE, SeriesFragment.EX);
+            fragment.setArguments(args);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment);
             transaction.commit();
@@ -89,7 +92,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     @Override
     public void onFileSelected(Item o) {
-
         Bundle bundle = new Bundle();
         bundle.putString(FileExplorerFragment.FILE_PATH,o.getPath());
         bundle.putBundle(FileExplorerFragment.CLASS_NAME, fileExplorerBundle);
@@ -170,8 +172,21 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 transaction.commit();
                 break;
             }
-            case  R.id.nav_series: {
+            case  R.id.nav_series_ex: {
                 SeriesFragment fragment = new SeriesFragment();
+                Bundle args = new Bundle();
+                args.putString(SeriesFragment.DB_SOURCE, SeriesFragment.EX);
+                fragment.setArguments(args);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, fragment);
+                transaction.commit();
+                break;
+            }
+            case  R.id.nav_series_fs: {
+                SeriesFragment fragment = new SeriesFragment();
+                Bundle args = new Bundle();
+                args.putString(SeriesFragment.DB_SOURCE, SeriesFragment.FS);
+                fragment.setArguments(args);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, fragment);
                 transaction.commit();
@@ -198,6 +213,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
     protected void onRestart() {
         super.onRestart();
         SeriesFragment fragment = new SeriesFragment();
+        Bundle args = new Bundle();
+        args.putString(SeriesFragment.DB_SOURCE, SeriesFragment.EX);
+        fragment.setArguments(args);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();

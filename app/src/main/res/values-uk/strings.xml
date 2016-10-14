@@ -19,10 +19,12 @@
     <string name="about">Про програму</string>
     <string name="choose_subtitles">Виберіть субтитри</string>
     <string name="open">Відкрити</string>
-    <string name="series">Серіали</string>
+    <string name="series_ex">Серіали EX</string>
     <string name="subs_transparency">Прозорість субтитрів</string>
     <string name="up">Вверх</string>
     <string name="download">Завантажити</string>
     <string name="video_quality_choose">Виберіть якість відео</string>
     <string name="click_up">клікай вверх поки в тулбарі не покажеться сезон</string>
+    <string name="series_fs">Серіали FS</string>
+    <string name="availability">Серіали FS доступні тільки на території України</string>
 </resources>

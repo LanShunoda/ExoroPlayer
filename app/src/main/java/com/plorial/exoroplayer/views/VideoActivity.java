@@ -27,6 +27,7 @@ import com.plorial.exoroplayer.controllers.SettingsClickListener;
 import com.plorial.exoroplayer.controllers.SubsChooseClickListener;
 import com.plorial.exoroplayer.controllers.SubtitlesController;
 import com.plorial.exoroplayer.controllers.VideoControl;
+import com.plorial.exoroplayer.model.ExUaUrlConvertorTask;
 import com.plorial.exoroplayer.model.SubsDownloader;
 import com.plorial.exoroplayer.model.events.VideoStatusEvent;
 
@@ -135,6 +136,17 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     private void setupVideoView() {
         emVideoView.setOnErrorListener(new ErrorListener(this));
         emVideoView.setOnPreparedListener(this);
+        if(videoSource.contains("http://www.ex.ua/")) {
+            ExUaUrlConvertorTask task = new ExUaUrlConvertorTask();
+            task.execute(videoSource);
+            try {
+                videoSource = task.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
         emVideoView.setVideoPath(videoSource);
         emVideoView.setOnCompletionListener(new OnCompletionListener() {
             @Override

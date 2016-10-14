@@ -68,4 +68,10 @@
             android:autoLink="web"
             android:gravity="right" />
     </LinearLayout>
+
+    <TextView
+        android:text="@string/availability"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         />
 </LinearLayout>
