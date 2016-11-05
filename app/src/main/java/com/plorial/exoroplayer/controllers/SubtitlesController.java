@@ -5,7 +5,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.widget.TextView;
 
-import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
+import com.plorial.exoroplayer.ijk.IjkVideoView;
 import com.plorial.exoroplayer.model.SubtitleProcessingTask;
 import com.plorial.exoroplayer.model.SubtitleProcessor;
 import com.sri.subtitlessupport.utils.TimedTextObject;
@@ -19,12 +19,12 @@ public class SubtitlesController {
 
     private Context context;
     private TextView subtitlesText;
-    private EMVideoView videoView;
+    private IjkVideoView videoView;
     private String srtSource;
     private Handler subtitleDisplayHandler;
     private TextView tvTranslatedText;
 
-    public SubtitlesController(Context context, EMVideoView videoView, TextView subtitlesText, String srtSource, TextView tvTranslatedText) {
+    public SubtitlesController(Context context, IjkVideoView videoView, TextView subtitlesText, String srtSource, TextView tvTranslatedText) {
         this.context = context;
         this.videoView = videoView;
         this.subtitlesText = subtitlesText;

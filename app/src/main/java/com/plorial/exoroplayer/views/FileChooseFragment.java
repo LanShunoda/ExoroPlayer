@@ -9,9 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import com.devbrackets.android.exomedia.type.MediaSourceType;
-import com.devbrackets.android.exomedia.util.MediaSourceUtil;
-import com.devbrackets.android.exomedia.util.MediaUtil;
 import com.plorial.exoroplayer.R;
 import com.plorial.exoroplayer.model.FileArrayAdapter;
 import com.plorial.exoroplayer.model.Item;
@@ -73,17 +70,17 @@ public class FileChooseFragment extends ListFragment {
                     //String formated = lastModDate.toString();
                     dir.add(new Item(ff.getName(), num_item, date_modify, ff.getAbsolutePath(), "directory_icon"));
                 } else {
-                    MediaSourceType type = MediaSourceUtil.getType(Uri.parse(ff.toURI().toString()));
+//                    MediaSourceType type = MediaSourceUtil.getType(Uri.parse(ff.toURI().toString()));
                     SubtitlesUtil.SubtitlesType subtitlesType = SubtitlesUtil.getSubtitlesType(ff.getAbsolutePath());
-                    if (type.equals(MediaSourceType.UNKNOWN)) {
-                        if (subtitlesType.equals(SubtitlesUtil.SubtitlesType.UNKNOWN)) {
+//                    if (type.equals(MediaSourceType.UNKNOWN)) {
+//                        if (subtitlesType.equals(SubtitlesUtil.SubtitlesType.UNKNOWN)) {
                             fls.add(new Item(ff.getName(), ff.length() + getActivity().getString(R.string.byte_), date_modify, ff.getAbsolutePath(), "file_icon"));
-                        }else {
-                            fls.add(new Item(ff.getName(), ff.length() + getActivity().getString(R.string.byte_), date_modify, ff.getAbsolutePath(), "subtitles"));
-                        }
-                    }else {
-                        fls.add(new Item(ff.getName(), ff.length() + getActivity().getString(R.string.byte_), date_modify, ff.getAbsolutePath(), "video"));
-                    }
+//                        }else {
+//                            fls.add(new Item(ff.getName(), ff.length() + getActivity().getString(R.string.byte_), date_modify, ff.getAbsolutePath(), "subtitles"));
+//                        }
+//                    }else {
+//                        fls.add(new Item(ff.getName(), ff.length() + getActivity().getString(R.string.byte_), date_modify, ff.getAbsolutePath(), "video"));
+//                    }
                 }
             }
         }catch (Exception e) {

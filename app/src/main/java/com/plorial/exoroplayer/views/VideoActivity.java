@@ -2,7 +2,6 @@ package com.plorial.exoroplayer.views;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +12,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.devbrackets.android.exomedia.listener.OnCompletionListener;
-import com.devbrackets.android.exomedia.listener.OnPreparedListener;
-import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -27,6 +24,7 @@ import com.plorial.exoroplayer.controllers.SettingsClickListener;
 import com.plorial.exoroplayer.controllers.SubsChooseClickListener;
 import com.plorial.exoroplayer.controllers.SubtitlesController;
 import com.plorial.exoroplayer.controllers.VideoControl;
+import com.plorial.exoroplayer.ijk.IjkVideoView;
 import com.plorial.exoroplayer.model.ExUaUrlConvertorTask;
 import com.plorial.exoroplayer.model.SubsDownloader;
 import com.plorial.exoroplayer.model.events.VideoStatusEvent;
@@ -38,12 +36,14 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
+
+import tv.danmaku.ijk.media.player.IMediaPlayer;
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 /**
  * Created by plorial on 6/25/16.
  */
-public class VideoActivity extends AppCompatActivity implements SettingsDialog.OnUpdateSettingsListener, OnPreparedListener {
+public class VideoActivity extends AppCompatActivity implements SettingsDialog.OnUpdateSettingsListener, IMediaPlayer.OnPreparedListener {
 
     private static final String TAG = VideoActivity.class.getSimpleName();
 
@@ -54,7 +54,8 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
 
     public static int subsCorrector = 0;
 
-    private EMVideoView emVideoView;
+    private IjkVideoView videoView;
+    private RelativeLayout activityLayout;
     private FrameLayout controlsHolder;
     private long currentPos;
     private HashMap<Integer, SubtitlesController> subtitlesControllers;
@@ -75,6 +76,8 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.video_activity);
+        IjkMediaPlayer.loadLibrariesOnce(null);
+        IjkMediaPlayer.native_profileBegin("libijkplayer.so");
         setUpViews();
         if(savedInstanceState != null){
             currentPos = savedInstanceState.getLong("CURRENT_POS");
@@ -112,7 +115,8 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     }
 
     private void setUpViews() {
-        emVideoView = (EMVideoView) findViewById(R.id.video_play_activity_video_view);
+        activityLayout = (RelativeLayout) findViewById(R.id.video_activity_layout);
+        videoView = (IjkVideoView) findViewById(R.id.video_view);
         controlsHolder = (FrameLayout) findViewById(R.id.controlsHolder);
         subContainer = (LinearLayout) findViewById(R.id.subsContainer);
         tvTranslatedText = (TextView) findViewById(R.id.tvTranslatedText);
@@ -134,8 +138,8 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     }
 
     private void setupVideoView() {
-        emVideoView.setOnErrorListener(new ErrorListener(this));
-        emVideoView.setOnPreparedListener(this);
+        videoView.setOnErrorListener(new ErrorListener(this));
+        videoView.setOnPreparedListener(this);
         if(videoSource.contains("http://www.ex.ua/")) {
             ExUaUrlConvertorTask task = new ExUaUrlConvertorTask();
             task.execute(videoSource);
@@ -147,10 +151,11 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
                 e.printStackTrace();
             }
         }
-        emVideoView.setVideoPath(videoSource);
-        emVideoView.setOnCompletionListener(new OnCompletionListener() {
+
+        videoView.setVideoPath(videoSource);
+        videoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
             @Override
-            public void onCompletion() {
+            public void onCompletion(IMediaPlayer iMediaPlayer) {
                 if(ad.isLoaded()){
                     ad.show();
                 }
@@ -159,13 +164,13 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     }
 
     @Override
-    public void onPrepared() {
+    public void onPrepared(IMediaPlayer mediaPlayer) {
         prepareSubs();
-        VideoControl videoControl = new VideoControl(emVideoView);
+        VideoControl videoControl = new VideoControl(videoView);
         final VideoControllerView controller = new VideoControllerView(this);
         controller.setMediaPlayer(videoControl);
         controller.setAnchorView(controlsHolder);
-        emVideoView.setOnClickListener(new View.OnClickListener() {
+        activityLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 controller.show(10000);
@@ -175,8 +180,8 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
         AppCompatImageButton subsButton = (AppCompatImageButton) controller.getRoot().findViewById(R.id.subs_button);
         settingsButton.setOnClickListener(new SettingsClickListener(this));
         subsButton.setOnClickListener(new SubsChooseClickListener(this));
-        emVideoView.seekTo((int) currentPos);
-        emVideoView.start();
+        videoView.seekTo((int) currentPos);
+        videoView.start();
         tvTranslatedText.setVisibility(View.INVISIBLE);
         pbPreparing.setVisibility(View.INVISIBLE);
     }
@@ -236,7 +241,7 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
         TextView subTextView = (TextView) view.findViewById(R.id.subTextView);
         subTextView.setTag(pos);
         subContainer.addView(subTextView);
-        SubtitlesController subController = new SubtitlesController(this, emVideoView, subTextView, srtSource, tvTranslatedText);
+        SubtitlesController subController = new SubtitlesController(this, videoView, subTextView, srtSource, tvTranslatedText);
         subtitlesControllers.put(pos, subController);
         subController.startSubtitles();
     }
@@ -276,14 +281,14 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong("CURRENT_POS",emVideoView.getCurrentPosition());
+        outState.putLong("CURRENT_POS", videoView.getCurrentPosition());
         outState.putBooleanArray("CURRENT_SUBS", checkedItems);
     }
 
     @Subscribe
     public void onVideoStatusEvent(VideoStatusEvent event){
-        if(event.getMassage() == VideoStatusEvent.PAUSE && emVideoView.isPlaying()) {
-            emVideoView.pause();
+        if(event.getMassage() == VideoStatusEvent.PAUSE && videoView.isPlaying()) {
+            videoView.pause();
         }
     }
 
@@ -307,7 +312,10 @@ public class VideoActivity extends AppCompatActivity implements SettingsDialog.O
     @Override
     public void onStop() {
         stopAllSubs();
-        emVideoView.release();
+        videoView.stopPlayback();
+        videoView.release(true);
+        videoView.stopBackgroundPlay();
+        IjkMediaPlayer.native_profileEnd();
         EventBus.getDefault().unregister(this);
         super.onStop();
     }

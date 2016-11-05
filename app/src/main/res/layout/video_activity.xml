@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    android:id="@+id/video_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000">
 
-    <com.devbrackets.android.exomedia.ui.widget.EMVideoView
-        android:id="@+id/video_play_activity_video_view"
+    <com.plorial.exoroplayer.ijk.IjkVideoView
+        android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:layout_gravity="center"></com.plorial.exoroplayer.ijk.IjkVideoView>
 
     <FrameLayout
         android:layout_width="match_parent"

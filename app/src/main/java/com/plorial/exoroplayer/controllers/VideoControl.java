@@ -1,6 +1,6 @@
 package com.plorial.exoroplayer.controllers;
 
-import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
+import com.plorial.exoroplayer.ijk.IjkVideoView;
 import com.plorial.exoroplayer.views.VideoControllerView;
 
 /**
@@ -8,9 +8,9 @@ import com.plorial.exoroplayer.views.VideoControllerView;
  */
 public class VideoControl implements VideoControllerView.MediaPlayerControl {
 
-    private EMVideoView videoView;
+    private IjkVideoView videoView;
 
-    public VideoControl(EMVideoView videoView) {
+    public VideoControl(IjkVideoView videoView) {
         this.videoView = videoView;
     }
 

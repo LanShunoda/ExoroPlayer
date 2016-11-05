@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.devbrackets.android.exomedia.ui.widget.EMVideoView;
+import com.plorial.exoroplayer.ijk.IjkVideoView;
 import com.plorial.exoroplayer.views.VideoActivity;
 import com.sri.subtitlessupport.utils.Caption;
 import com.sri.subtitlessupport.utils.TimedTextObject;
@@ -21,11 +21,11 @@ public class SubtitleProcessor implements Runnable {
     private static final String TAG = SubtitleProcessor.class.getSimpleName();
 
     private Handler subtitleDisplayHandler;
-    private EMVideoView emVideoView;
+    private IjkVideoView emVideoView;
     private TextView subtitleText;
     private TimedTextObject srt;
 
-    public SubtitleProcessor(Handler subtitleDisplayHandler, EMVideoView emVideoView, TextView subtitleText, TimedTextObject srt) {
+    public SubtitleProcessor(Handler subtitleDisplayHandler, IjkVideoView emVideoView, TextView subtitleText, TimedTextObject srt) {
         this.subtitleDisplayHandler = subtitleDisplayHandler;
         this.emVideoView = emVideoView;
         this.subtitleText = subtitleText;
