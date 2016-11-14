@@ -8,8 +8,8 @@ android {
         applicationId "com.plorial.exoroplayer"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 12
-        versionName "2.4"
+        versionCode 13
+        versionName "2.4.1"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

@@ -99,4 +99,6 @@
     <string name="VideoView_player_AndroidMediaPlayer" translatable="false">Player: AndroidMediaPlayer</string>
     <string name="VideoView_player_IjkMediaPlayer" translatable="false">Player: IjkMediaPlayer</string>
     <string name="VideoView_player_IjkExoMediaPlayer" translatable="false">Player: IjkExoMediaPlayer</string>
+    <string name="anime">Anime</string>
+    <string name="films">Films</string>
 </resources>

@@ -32,6 +32,10 @@ public class SeriesFragment extends Fragment {
     public static final String DB_SOURCE = "DB_SOURCE";
     public static final String EX = "EX";
     public static final String FS = "FS";
+    public static final String CONTENT = "CONTENT";
+    public static final String SERIES = "SERIES";
+    public static final String FILMS = "FILMS";
+    public static final String ANIME = "ANIME";
 
     private ListView listView;
     private ArrayAdapter<String> adapter;
@@ -59,7 +63,19 @@ public class SeriesFragment extends Fragment {
             args = savedInstanceState;
         }
         if(args != null && args.getString(DB_SOURCE).equals(EX)){
-            dbRef = firebaseDatabase.getReference("Series EX");
+            switch (args.getString(CONTENT)){
+                case SERIES:
+                    dbRef = firebaseDatabase.getReference("Series EX");
+                    break;
+                case ANIME:
+                    dbRef = firebaseDatabase.getReference("Anime");
+                    break;
+                case FILMS:
+                    dbRef = firebaseDatabase.getReference("Films");
+                    break;
+                default:
+                    dbRef = firebaseDatabase.getReference("Series EX");
+            }
             dbValueEventListener = new DBValueEventListenerForEx(adapter,view, getActivity());
         }else if(args != null && args.getString(DB_SOURCE).equals(FS)){
             dbRef = firebaseDatabase.getReference("Series FS");

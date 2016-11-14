@@ -27,4 +27,6 @@
     <string name="click_up">клікай вверх поки в тулбарі не покажеться сезон</string>
     <string name="series_fs">Серіали FS</string>
     <string name="availability">Серіали FS доступні тільки на території України</string>
+    <string name="anime">Аніме</string>
+    <string name="films">Фільми</string>
 </resources>

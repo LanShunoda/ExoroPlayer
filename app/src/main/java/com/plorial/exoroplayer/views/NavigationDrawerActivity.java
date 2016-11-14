@@ -58,6 +58,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
             SeriesFragment fragment = new SeriesFragment();
             Bundle args = new Bundle();
             args.putString(SeriesFragment.DB_SOURCE, SeriesFragment.EX);
+            args.putString(SeriesFragment.CONTENT, SeriesFragment.SERIES);
             fragment.setArguments(args);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment);
@@ -176,6 +177,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 SeriesFragment fragment = new SeriesFragment();
                 Bundle args = new Bundle();
                 args.putString(SeriesFragment.DB_SOURCE, SeriesFragment.EX);
+                args.putString(SeriesFragment.CONTENT, SeriesFragment.SERIES);
                 fragment.setArguments(args);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, fragment);
@@ -192,9 +194,28 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 transaction.commit();
                 break;
             }
-            case  R.id.nav_ad:
-                loadAd();
+            case  R.id.nav_anime: {
+                SeriesFragment fragment = new SeriesFragment();
+                Bundle args = new Bundle();
+                args.putString(SeriesFragment.DB_SOURCE, SeriesFragment.EX);
+                args.putString(SeriesFragment.CONTENT, SeriesFragment.ANIME);
+                fragment.setArguments(args);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, fragment);
+                transaction.commit();
                 break;
+            }
+            case  R.id.nav_films: {
+                SeriesFragment fragment = new SeriesFragment();
+                Bundle args = new Bundle();
+                args.putString(SeriesFragment.DB_SOURCE, SeriesFragment.EX);
+                args.putString(SeriesFragment.CONTENT, SeriesFragment.FILMS);
+                fragment.setArguments(args);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, fragment);
+                transaction.commit();
+                break;
+            }
             case R.id.nav_about: {
                 AboutFragment fragment = new AboutFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -215,6 +236,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         SeriesFragment fragment = new SeriesFragment();
         Bundle args = new Bundle();
         args.putString(SeriesFragment.DB_SOURCE, SeriesFragment.EX);
+        args.putString(SeriesFragment.CONTENT, SeriesFragment.SERIES);
         fragment.setArguments(args);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
