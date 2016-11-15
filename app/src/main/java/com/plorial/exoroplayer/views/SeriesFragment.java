@@ -63,18 +63,23 @@ public class SeriesFragment extends Fragment {
             args = savedInstanceState;
         }
         if(args != null && args.getString(DB_SOURCE).equals(EX)){
-            switch (args.getString(CONTENT)){
-                case SERIES:
-                    dbRef = firebaseDatabase.getReference("Series EX");
-                    break;
-                case ANIME:
-                    dbRef = firebaseDatabase.getReference("Anime");
-                    break;
-                case FILMS:
-                    dbRef = firebaseDatabase.getReference("Films");
-                    break;
-                default:
-                    dbRef = firebaseDatabase.getReference("Series EX");
+            String content = args.getString(CONTENT);
+            if(content != null){
+                switch (content) {
+                    case SERIES:
+                        dbRef = firebaseDatabase.getReference("Series EX");
+                        break;
+                    case ANIME:
+                        dbRef = firebaseDatabase.getReference("Anime");
+                        break;
+                    case FILMS:
+                        dbRef = firebaseDatabase.getReference("Films");
+                        break;
+                    default:
+                        dbRef = firebaseDatabase.getReference("Series EX");
+                }
+            }else {
+                dbRef = firebaseDatabase.getReference("Series EX");
             }
             dbValueEventListener = new DBValueEventListenerForEx(adapter,view, getActivity());
         }else if(args != null && args.getString(DB_SOURCE).equals(FS)){
@@ -97,6 +102,10 @@ public class SeriesFragment extends Fragment {
         super.onSaveInstanceState(outState);
         if(getArguments() != null){
             outState.putString(DB_SOURCE, getArguments().getString(DB_SOURCE));
+            String content = getArguments().getString(CONTENT);
+            if(content != null) {
+                outState.putString(SeriesFragment.CONTENT, content);
+            }
         }
     }
 
